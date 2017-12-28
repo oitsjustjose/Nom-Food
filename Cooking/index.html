@@ -11,38 +11,10 @@
 		<script src="../semantic/out/semantic.min.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA73dfB5qlWO7f8BdF9_MIdS4pa9QvjtnM"></script>
+		<script src="../my-app.js"></script>
 	</head>
 
-	<body onLoad="getActiveUser()">
-		<script>
-			function getActiveUser()
-			{
-				var config = {
-					apiKey: "AIzaSyCCmdTx1xIJz_uRqBzuI1KZWYYqpThJ33o",
-					authDomain: "foodie-1420b.firebaseapp.com",
-					databaseURL: "https://foodie-1420b.firebaseio.com",
-					projectId: "foodie-1420b",
-					storageBucket: "",
-					messagingSenderId: "347004995162"
-				};
-
-				firebase.initializeApp(config);
-				
-				const auth = firebase.auth();
-				
-				firebase.auth().onAuthStateChanged(firebaseUser => {
-					if (firebaseUser)
-					{
-						document.getElementById("user").innerHTML = firebaseUser['email'];
-					}
-					else
-					{
-						document.getElementById("user").innerHTML = "Log In";
-					}
-				});
-			}
-		</script>	
-		
+	<body onLoad="getActiveUser()">	
 		<!--This is all stuff for the menubar-->
 		<div class="ui large inverted teal top fixed menu">
 			<div class="ui container">
@@ -50,7 +22,7 @@
 				<a href="../Nearby" class="item">Nearby Menus</a>
 				<a href="../Cooking" class="header item">Want to cook for us?</a>
 				<div class="right menu">
-					<a href="../Account" class="item" id="user">Account</a>
+					<a href="../Account" class="item" id="user" onmouseover="mouseOver(this)" onmouseout="mouseOut(this)"></a>
 				</div>
 			</div>
 		</div>
@@ -86,8 +58,9 @@
 					</div>
 					<div class="field">
 						<select class="ui fluid dropdown" id="food_type">
+							<option value="">Food type...</option>
 							<option value="ainu">Ainu</option>
-							<option value="all-americal">All American</option>
+							<option value="all-american">All American</option>
 							<option value="andhra">Andhra</option>
 							<option value="anglo-indian">Anglo Indian</option>
 							<option value="arab">Arab</option>
@@ -233,38 +206,66 @@
 
 				if (first_name == "")
 				{
-					alert("Please enter your first name");
+					document.getElementById("first_name").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
 					good = false;
+				}
+				else
+				{
+					document.getElementById("first_name").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
 				}
 				if (last_name == "")
 				{
-					alert("Please enter your last name");
+					document.getElementById("last_name").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
 					good = false;
+				}
+				else
+				{
+					document.getElementById("last_name").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
 				}
 				if (restaurant_name == "")
 				{
-					alert("Please enter your restaurant's name");
+					document.getElementById("restaurant_name").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
 					good = false;
+				}
+				else
+				{
+					document.getElementById("restaurant_name").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
 				}
 				if (address == "")
 				{
-					alert("Please enter your restaurant's address");
+					document.getElementById("address").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
 					good = false;
+				}
+				else
+				{
+					document.getElementById("address").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
 				}
 				if (area_code == "")
 				{
-					alert("Please enter your area code");
+					document.getElementById("area_code").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
 					good = false;
+				}
+				else
+				{
+					document.getElementById("area_code").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
 				}
 				if (country == "")
 				{
-					alert("Please enter a country");
+					document.getElementById("country").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
 					good = false;
+				}
+				else
+				{
+					document.getElementById("country").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
 				}
 				if(food_type == "")
 				{
-					alert("Please select a food type");
+					document.getElementById("food_type").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
 					good = false;
+				}
+				else
+				{
+					document.getElementById("food_type").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
 				}
 
 				if (good)

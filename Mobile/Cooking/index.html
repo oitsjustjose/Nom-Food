@@ -18,36 +18,7 @@
 		<script src="../my-app.js"></script>
 	</head>
 
-	<body onLoad="getActiveUser()">
-		<script>
-			function getActiveUser()
-			{
-				var config = {
-					apiKey: "AIzaSyCCmdTx1xIJz_uRqBzuI1KZWYYqpThJ33o",
-					authDomain: "foodie-1420b.firebaseapp.com",
-					databaseURL: "https://foodie-1420b.firebaseio.com",
-					projectId: "foodie-1420b",
-					storageBucket: "",
-					messagingSenderId: "347004995162"
-				};
-
-				firebase.initializeApp(config);
-				
-				const auth = firebase.auth();
-				
-				firebase.auth().onAuthStateChanged(firebaseUser => {
-					if (firebaseUser)
-					{
-						document.getElementById("user").innerHTML = firebaseUser['email'];
-					}
-					else
-					{
-						document.getElementById("user").innerHTML = "Log In";
-					}
-				});
-			}
-		</script>	
-		
+	<body onLoad="getActiveUser()">		
 		<div class="ui sidebar inverted vertical menu">
 			<a onClick="location.assign('..')" class="item">Home</a>
 			<a onClick="location.assign('../Nearby')" class="item">Nearby Menus</a>

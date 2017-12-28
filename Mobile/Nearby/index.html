@@ -18,36 +18,6 @@
 	</head>
 
 	<body onLoad="getActiveUser()">
-		<script>
-			function getActiveUser()
-			{
-				var config = {
-					apiKey: "AIzaSyCCmdTx1xIJz_uRqBzuI1KZWYYqpThJ33o",
-					authDomain: "foodie-1420b.firebaseapp.com",
-					databaseURL: "https://foodie-1420b.firebaseio.com",
-					projectId: "foodie-1420b",
-					storageBucket: "",
-					messagingSenderId: "347004995162"
-				};
-
-				firebase.initializeApp(config);
-				
-				const auth = firebase.auth();
-				
-				firebase.auth().onAuthStateChanged(firebaseUser => {
-				if (firebaseUser)
-				{
-					document.getElementById("user").innerHTML = firebaseUser['email'];
-				}
-				else
-				{
-					document.getElementById("user").innerHTML = "Log In";
-				}
-			});
-				
-			}
-		</script>
-		
 		<div class="ui sidebar inverted vertical menu">
 			<a onClick="location.assign('..')" class="item">Home</a>
 			<a onClick="location.assign('../Nearby')" class="header item">Nearby Menus</a>
@@ -136,7 +106,6 @@
 							document.getElementById("restaurant_" + tally).innerHTML += "<td>" + i + "</td>";
 							document.getElementById("restaurant_" + tally).innerHTML += "<td>" + items[i]["food_type"] + "</td>";
 							document.getElementById("restaurant_" + tally).innerHTML += "<td>" + Math.round(distance) + " mi" + "</td>";
-							
 							tally++;
 						}	
 					}

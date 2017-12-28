@@ -16,28 +16,6 @@
 	</head>
 
 	<body onLoad="getActiveUser()">
-		<script>
-			function getActiveUser()
-			{		
-				firebase.auth().onAuthStateChanged(firebaseUser => {
-					if (firebaseUser)
-					{
-						document.getElementById("user").innerHTML = firebaseUser['email'];
-						document.getElementById("email").remove();
-						document.getElementById("email_field").remove()
-						document.getElementById("password").remove();
-						document.getElementById("pass_field").remove()
-						document.getElementById("signup_field").remove();
-						document.getElementById("login").remove();
-						document.getElementById("status").innerHTML = "Welcome " + firebaseUser['email'] + ", would you like to log out?";
-					}
-					else
-					{
-						document.getElementById("user").innerHTML = "Log In";
-					}
-				});
-			}
-		</script>
 		<!--This is all stuff for the menubar-->
 		<div class="ui large inverted teal top fixed menu">
 			<div class="ui container">
@@ -45,7 +23,7 @@
 				<a href="../Nearby" class="item">Nearby Menus</a>
 				<a href="../Cooking" class="header item">Want to cook for us?</a>
 				<div class="right menu">
-					<a href="../Account" class="item" id="user">Account</a>
+					<a href="../Account" class="item" id="user"></a>
 				</div>
 			</div>
 		</div>
