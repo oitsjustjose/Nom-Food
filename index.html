@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Foodie</title>
+		<link rel="icon" href="img/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="foodie.css">
+		<script src="./jquery-1.7.2.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+		<script src="semantic/out/semantic.min.js"></script>
+		<script src="my-app.js"></script>
+	</head>
+
+	<body onLoad="getActiveUser()">
+		<script>	
+			function getActiveUser()
+			{
+				var config = {
+					apiKey: "AIzaSyCCmdTx1xIJz_uRqBzuI1KZWYYqpThJ33o",
+					authDomain: "foodie-1420b.firebaseapp.com",
+					databaseURL: "https://foodie-1420b.firebaseio.com",
+					projectId: "foodie-1420b",
+					storageBucket: "",
+					messagingSenderId: "347004995162"
+				};
+
+				firebase.initializeApp(config);
+				
+				const auth = firebase.auth();
+				
+				firebase.auth().onAuthStateChanged(firebaseUser => {
+				if (firebaseUser)
+				{
+					document.getElementById("user_1").innerHTML = firebaseUser['email'];
+					document.getElementById("user_2").innerHTML = firebaseUser['email'];
+				}
+				else
+				{
+					document.getElementById("user_1").innerHTML = "Log In";
+					document.getElementById("user_2").innerHTML = "Log In";
+				}
+			});
+				
+			}
+		</script>
+		<!--This is all stuff for the menubar--> 
+		<!--Following Menu-->
+		<div class="ui large inverted teal top fixed hidden menu">
+			<div class="ui container">
+				<a href="." class="header item">Home</a>
+				<a href="./Nearby" class="item">Nearby Menus</a>
+				<a href="./Cooking" class="item">Want to cook for us?</a>
+				<div class="right menu">
+					<a href="./Account" target="_blank" class="item" id="user_1">Account</a>
+				</div>
+			</div>
+		</div>
+		<!--Stuff goes below:-->
+		<div class="pusher">
+			<!-- Top half of the site: -->
+			<div class="ui inverted vertical masthead center aligned segment">
+				<div class="ui container">
+					<div class="ui large secondary inverted menu">
+						<a href="." class="header item">Home</a>
+						<a href="./Nearby" class="item">Nearby Menus</a>
+						<a href="./Cooking" class="item">Want to cook for us?</a>
+						<div class="right menu">
+							<a href="./Account" target="_blank" class="item" id="user_2">Account</a>
+						</div>
+					</div>
+				</div>
+				<div class="ui text container">
+					<h1 class="ui inverted header">Foodie</h1>
+					<h2>Home made food without all the work!</h2>
+				</div>
+			</div>
+			<!-- Everything else: -->
+			<div class="ui vertical stripe segment">
+				<div class="ui text container">
+					<h3 class="ui header">Hungry? Good!</h3>
+					<p style="text-align: left">Foodie is all about getting home-made food to your door! You can order anytime, anywhere from a selection of our nearby certified home-chefs!</p>
+					<p class="ui header">Get Started</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

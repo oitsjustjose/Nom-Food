@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+		<title>Foodie: Nearby</title>
+		<link rel="icon" href="../img/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="../semantic/out/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="../foodie.css">
+		<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+		<script src="../jquery-1.7.2.js"></script>
+		<script src="../semantic/out/semantic.min.js"></script>
+		<script src="../my-app.js"></script>
+	</head>
+
+	<body onLoad="getActiveUser()">
+		<script>
+			function getActiveUser()
+			{
+				var config = {
+					apiKey: "AIzaSyCCmdTx1xIJz_uRqBzuI1KZWYYqpThJ33o",
+					authDomain: "foodie-1420b.firebaseapp.com",
+					databaseURL: "https://foodie-1420b.firebaseio.com",
+					projectId: "foodie-1420b",
+					storageBucket: "",
+					messagingSenderId: "347004995162"
+				};
+
+				firebase.initializeApp(config);
+				
+				const auth = firebase.auth();
+				
+				firebase.auth().onAuthStateChanged(firebaseUser => {
+				if (firebaseUser)
+				{
+					document.getElementById("user").innerHTML = firebaseUser['email'];
+				}
+				else
+				{
+					document.getElementById("user").innerHTML = "Log In";
+				}
+			});
+				
+			}
+		</script>
+	<!--This is all stuff for the menubar-->
+		<div class="ui large inverted teal top fixed menu">
+			<div class="ui container">
+				<a href=".." class="item">Home</a>
+				<a href="../Nearby" class="header item">Nearby Menus</a>
+				<a href="../Cooking" class="item">Want to cook for us?</a>
+				<div class="right menu">
+					<a href="../Account" target="_blank" class="item" id="user">Account</a>
+				</div>
+			</div>
+		</div>
+		<div class="pusher" style="padding-top: 48px;">
+			<div class="ui vertical stripe quote segment">
+				<div class="ui equal width internally celled grid" id="restaurants">
+					<!-- Table Headers -->
+					<div class="center aligned row">
+						<div class="column">
+							<h2>Name</h2>
+						</div>
+						<div class="column">
+							<h2>Address</h2>
+						</div>
+						<div class="column">
+							<h2>Area Code</h2>
+						</div>
+						<div class="column">
+							<h2>Country</h2>
+						</div>
+						<div class="column">
+							<h2>Food Type</h2>
+						</div>
+						<div class="column">
+							<h2>Distance</h2>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="ui stripe"></div>
+		</div>
+
+		<script>
+			// JS Geolocation stuff:
+			getGeolocation();
+			
+			
+			function longfunctionfirst(callback)
+			{
+				setTimeout(function()
+				{
+					// Do stuff here...?
+					if(typeof callback == 'function')
+					{
+						callback();
+					}
+				}, 3000);
+			};
+
+			
+			function getGeolocation()
+			{
+				if (navigator.geolocation)
+				{
+					navigator.geolocation.getCurrentPosition(getNearbyLocations);
+				}
+				else
+				{
+					alert("Geolocation is not supported by this browser...");
+				}
+			}
+			
+			function getNearbyLocations(position)
+			{
+				var lat = position.coords.latitude;
+				var lon = position.coords.longitude;
+
+				var database = firebase.database();
+
+				$.getJSON(database.ref('Restaurants') + '.json', function(data) {
+					var items = [];
+					
+					$.each( data, function( key, val ) {
+						items[key] = val;
+					});
+					
+					do {
+						try
+						{
+							var searchRad = parseInt(window.prompt("Search Radius (mi):", "25"), 10);	
+						}
+						// Electron..?
+						catch(err) {
+							searchRad = Math.floor(getMoney() / 4);
+							alert("Electron doesn't support 'prompt'.\nDefaulted to 25 miles");
+						}
+					} while(isNaN(searchRad) || searchRad < 1);
+
+					var tally = 0;
+
+					for (var i in items)
+					{						
+						var radlat1 = Math.PI * lat / 180;
+						var radlat2 = Math.PI * items[i]["lat"] / 180;
+						var theta = lon - items[i]["lon"];
+						var radtheta = Math.PI * theta / 180;
+						var distance = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+						distance = Math.acos(distance);
+						distance = distance * 180 / Math.PI;
+						distance = distance * 60 * 1.1515;
+						
+						if (!isNaN(distance) && distance <= searchRad)
+						{
+							var elID = "restaurant_" + tally;
+							document.getElementById("restaurants").innerHTML += "<div class=\"center aligned row\" id=\"" + elID + "\">";
+							document.getElementById(elID).innerHTML += "<div class=\"column\">" + i + "</div>";
+							document.getElementById(elID).innerHTML += "<div class=\"column\">" + items[i]["address"] + "</div>";
+							document.getElementById(elID).innerHTML += "<div class=\"column\">" + items[i]["area_code"] + "</div>";
+							document.getElementById(elID).innerHTML += "<div class=\"column\">" + items[i]["country"] + "</div>";
+							document.getElementById(elID).innerHTML += "<div class=\"column\">" + items[i]["food_type"] + "</div>";
+							document.getElementById(elID).innerHTML += "<div class=\"column\">" + Math.round(distance) + " mi" + "</div>";
+							document.getElementById("restaurants").innerHTML += "</div>";
+							tally++;
+						}	
+					}
+				});
+			}
+		</script>
+	</body>
+</html>
