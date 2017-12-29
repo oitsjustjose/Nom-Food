@@ -43,74 +43,16 @@
 				</div>
 			</div>
 		</div>
-
-		<script>
-			// JS Geolocation stuff:
-			getGeolocation();
-			
-			function longfunctionfirst(callback)
-			{
-				setTimeout(function()
-				{
-					// Do stuff here...?
-					if(typeof callback == 'function')
-					{
-						callback();
-					}
-				}, 3000);
-			};
-
-			
-			function getGeolocation()
-			{
-				if (navigator.geolocation)
-				{
-					navigator.geolocation.getCurrentPosition(getNearbyLocations);
-				}
-				else
-				{
-					alert("Geolocation is not supported by this browser...");
-				}
-			}
-			
-			function getNearbyLocations(position)
-			{
-				var lat = position.coords.latitude;
-				var lon = position.coords.longitude;
-
-				var database = firebase.database();
-
-				$.getJSON(database.ref('Restaurants') + '.json', function(data) {
-					var items = [];
-					
-					$.each( data, function( key, val ) {
-						items[key] = val;
-					});
-
-					var tally = 0;
-
-					for (var i in items)
-					{						
-						var radlat1 = Math.PI * lat / 180;
-						var radlat2 = Math.PI * items[i]["lat"] / 180;
-						var theta = lon - items[i]["lon"];
-						var radtheta = Math.PI * theta / 180;
-						var distance = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-						distance = Math.acos(distance);
-						distance = distance * 180 / Math.PI;
-						distance = distance * 60 * 1.1515;
-						
-						if (!isNaN(distance) && distance <= 25)
-						{
-							document.getElementById("results").innerHTML += "<tr id=\"restaurant_" + tally + "\"></tr>";
-							document.getElementById("restaurant_" + tally).innerHTML += "<td>" + i + "</td>";
-							document.getElementById("restaurant_" + tally).innerHTML += "<td>" + items[i]["food_type"] + "</td>";
-							document.getElementById("restaurant_" + tally).innerHTML += "<td>" + Math.round(distance) + " mi" + "</td>";
-							tally++;
-						}	
-					}
-				});
-			}
-		</script>
+				
+		<!-- Popup modal for restaurant menus: -->
+		
+		<div class="ui modal menu">
+			<i class="close icon" onClick="closeModal()"></i>
+				<div class="header" id="menu_header"></div>
+				<div class="content" id="menu_content">
+			</div>
+		</div>
+		
+		<script src="my-app.js"></script>
 	</body>
 </html>
