@@ -9,7 +9,7 @@ function showMenu(el)
 {
 	var database = firebase.database();
 	
-	$.getJSON(database.ref('Restaurants/' + el.innerHTML + '/menu') + '.json', function(data) {
+	$.getJSON(database.ref('Restaurants/' + el.children[0].innerHTML + '/menu') + '.json', function(data) {
 		var items = [];
 		
 		$.each( data, function( key, val ) {
@@ -18,7 +18,7 @@ function showMenu(el)
 		
 		// Reset the menu content:
 		document.getElementById("menu_content").innerHTML = "";
-		document.getElementById("menu_header").innerHTML = el.innerHTML;
+		document.getElementById("menu_header").innerHTML = el.children[0].innerHTML;
 		
 		for (var i in items)
 		{
@@ -86,8 +86,8 @@ function getNearbyLocations(position)
 
 			if (!isNaN(distance) && distance <= 25)
 			{
-				document.getElementById("results").innerHTML += "<tr id=\"restaurant_" + tally + "\"></tr>";
-				document.getElementById("restaurant_" + tally).innerHTML += "<td onClick='showMenu(this)' class='restaurant_result'>" + i + "</td>";
+				document.getElementById("results").innerHTML += "<tr onClick='showMenu(this)' id=\"restaurant_" + tally + "\"></tr>";
+				document.getElementById("restaurant_" + tally).innerHTML += "<td  class='restaurant_result'>" + i + "</td>";
 				document.getElementById("restaurant_" + tally).innerHTML += "<td>" + items[i].food_type + "</td>";
 				document.getElementById("restaurant_" + tally).innerHTML += "<td>" + Math.round(distance) + " mi" + "</td>";
 				tally++;
