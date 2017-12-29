@@ -1,16 +1,5 @@
 (function()
-{
-	// var config = {
-	// 	apiKey: "AIzaSyCCmdTx1xIJz_uRqBzuI1KZWYYqpThJ33o",
-	// 	authDomain: "foodie-1420b.firebaseapp.com",
-	// 	databaseURL: "https://foodie-1420b.firebaseio.com",
-	// 	projectId: "foodie-1420b",
-	// 	storageBucket: "",
-	// 	messagingSenderId: "347004995162"
-	// };
-	
-	// firebase.initializeApp(config);
-	
+{	
 	const email = document.getElementById("email");
 	const password = document.getElementById("password");
 	const login = document.getElementById("login");
