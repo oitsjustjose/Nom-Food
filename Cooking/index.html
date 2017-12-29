@@ -189,18 +189,26 @@
 				const country = document.getElementById("country").value;
 				const food_type = document.getElementById("food_type").value;
 				var database = firebase.database();
-				console.log(restaurant_name);
-				database.ref('Restaurants/' + restaurant_name).set({
+				const promise = database.ref('Restaurants/' + restaurant_name).set({
 					'owner_first': first_name,
 					'owner_last': last_name,
 					'owner_email': owner_email,
 					'address': address,
+					'city': city,
 					'area_code': area_code,
+					'phone_number': phone_number,
 					'country': country,
 					'food_type': food_type,
 					'lat': lat,
 					'lon': lon
 				});
+
+				promise
+					.then(function() {
+						alert("We've added your restaurant, thanks!!");
+						window.location = ".";
+					})
+					.catch(e => alert(e.message));
 			}
 			
 			const submit = document.getElementById("submit");
