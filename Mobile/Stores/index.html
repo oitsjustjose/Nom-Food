@@ -15,17 +15,18 @@
 
 	<body onLoad="getActiveUser()">
 		<!--This is all stuff for the menubar-->
-		<div class="ui large inverted teal top fixed menu">
-			<div class="ui container">
-				<a href=".." class="item">Home</a>
-				<a href="../Nearby" class="header item">Nearby Menus</a>
-				<a href="../Cooking" class="item">Want to cook for us?</a>
-				<div class="right menu">
-					<a href="../Account" class="item" id="user" onmouseover="mouseOver(this)" onmouseout="mouseOut(this)"></a>
-				</div>
-			</div>
+		<div class="ui sidebar inverted vertical menu">
+			<a onClick="location.assign('..')" class="item">Home</a>
+			<a onClick="location.assign('../Nearby')" class="item">Nearby Menus</a>
+			<a onClick="location.assign('../Cooking')" class="item">Cook for us!</a>
+			<a onClick="location.assign('../Stores')" class="header item">Store Manager</a>
+			<a onClick="location.assign('../Account')" class="item" id="user">Log In</a>
 		</div>
 		
+		<!--This is all stuff for the menubar-->
+		<div class="ui large inverted teal top fixed menu container">
+			<a class="header item" onClick="toggleSidebar()"><i class="sidebar icon"></i>Menu</a>
+		</div>
 		<div class="pusher" style="padding-top: 40px;">
 			<div class="ui vertical stripe quote segment">
 				<div class="ui equal width internally celled grid" id="restaurants">

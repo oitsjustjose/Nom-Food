@@ -57,7 +57,7 @@ function editMenu(el) {
 		for (var i in items) {
 			var id = restaurant_name + ":" + tally;
 			// Header Name field, with remove button:
-			document.getElementById("menu_content").innerHTML += "<div id='" + id + "'></div>";
+			document.getElementById("menu_content").innerHTML += "<div id=\"" + id + "\"></div>";
 			document.getElementById(id).innerHTML += "<h4 id='" + i + "'></h4>";
 			document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'></input> <button class=\"ui button\" onClick='remove(\"" + restaurant_name + "\",\"" + i + "\")'>Remove</button><br>";
 			// Description, ingredients and price:
@@ -65,12 +65,12 @@ function editMenu(el) {
 			document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value=\"" + items[i].ingr + "\" style='width: inherit;'></input><br>";
 			document.getElementById(id).innerHTML += "<br>Price: <input type='number' value=\"" + items[i].price + "\"></input><br>";
 			// Save button:
-			document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id + "\")'>Save</button>";
+			document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id.replace(/'/g , "&#39") + "\")'>Save</button>";
 			tally++;
 		}
 		// New item button:
 		document.getElementById("menu_content").innerHTML += "<div id='plus_button' class=\"ui right\"></div>";
-		document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"plus icon\" id='new_entry' class=\"ui button\" onClick='addNew(this," + items.length + ",\"" + restaurant_name + "\")'></i>";
+		document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"plus icon\" id='new_entry' class=\"ui button\" onClick='addNew(this," + items.length + ",\"" + restaurant_name.replace(/'/g , "&#39") + "\")'></i>";
 
 		// Show the modal now that we've generated it.
 		$('.ui.modal.menu').modal('show');
@@ -105,13 +105,13 @@ function remove(restaurant_name, item) {
 			document.getElementById(id).innerHTML += "Description: <input type='text' value='" + items[i].desc + "' style='width: inherit;'></input><br>";
 			document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value='" + items[i].ingr + "' style='width: inherit;'></input><br>";
 			document.getElementById(id).innerHTML += "<br>Price: <input type='number' value='" + items[i].price + "'></input><br>";
-			document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id + "\")'>Save</button>";
+			document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id.replace(/'/g , "&#39") + "\")'>Save</button>";
 			tally++;
 		}
 
 		// New item button:
 		document.getElementById("menu_content").innerHTML += "<div id='plus_button' class=\"ui right\"></div>";
-		document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"plus icon\" id='new_entry' class=\"ui button\" onClick='addNew(this," + items.length + ",\"" + restaurant_name + "\")'></i>";
+		document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"plus icon\" id='new_entry' class=\"ui button\" onClick='addNew(this," + items.length + ",\"" + restaurant_name.replace(/'/g , "&#39") + "\")'></i>";
 
 		$('.ui.modal.menu').modal('show');
 	});
@@ -119,13 +119,13 @@ function remove(restaurant_name, item) {
 
 function addNew(el, numItems, restaurant_name) {
 	var id = restaurant_name + ":new";
-	el.parentElement.innerHTML += "<div id='" + id + "'></div>";
-	document.getElementById(id).innerHTML += "<h4 id='header_new" + "'></h4>";
+	el.parentElement.innerHTML += "<div id=\"" + id + "\"></div>";
+	document.getElementById(id).innerHTML += "<h4 id=\"header_new\"></h4>";
 	document.getElementById("header_new").innerHTML = "Item Name: <input type='text'></input><br>";
 	document.getElementById(id).innerHTML += "Description: <input type='text' style='width: inherit;'></input><br>";
 	document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' style='width: inherit;'></input><br>";
 	document.getElementById(id).innerHTML += "<br>Price: <input type='number'></input><br>";
-	document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id + "\")'>Save</button>";
+	document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id.replace(/'/g , "&#39") + "\")'>Save</button>";
 
 	document.getElementById("new_entry").style.display = "none";
 
@@ -145,8 +145,14 @@ function saveChanges(el, master_id) {
 	var item_price = inputs[3].value;
 	
 	try {
-		item_price = parseInt(item_price);
+		item_price = parseFloat(item_price);
 	} catch (err) {
+		alert("Price formatting is incorrect");
+		return;
+	}
+	
+	if (isNaN(item_price))
+	{
 		alert("Price formatting is incorrect");
 		return;
 	}
@@ -182,13 +188,13 @@ function saveChanges(el, master_id) {
 				document.getElementById(id).innerHTML += "Description: <input type='text' value='" + items[i].desc + "' style='width: inherit;'></input><br>";
 				document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value='" + items[i].ingr + "' style='width: inherit;'></input><br>";
 				document.getElementById(id).innerHTML += "<br>Price: <input type='number' value='" + items[i].price + "'></input><br>";
-				document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + restaurant_name + "\")'>Save</button>";
+				document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id.replace(/'/g , "&#39") + "\")'>Save</button>";
 				tally++;
 			}
 
 			// New item button:
 			document.getElementById("menu_content").innerHTML += "<div id='plus_button' class=\"ui right\"></div>";
-			document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"plus icon\" id='new_entry' class=\"ui button\" onClick='addNew(this," + items.length + ",\"" + restaurant_name + "\")'></i>";
+			document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"plus icon\" id='new_entry' class=\"ui button\" onClick='addNew(this," + items.length + ",\"" + restaurant_name.replace(/'/g , "&#39") + "\")'></i>";
 
 			$('.ui.modal.menu').modal('show');
 		});
