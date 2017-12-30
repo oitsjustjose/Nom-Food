@@ -20,29 +20,6 @@
 	</head>
 
 	<body onLoad="getActiveUser()">
-		<script>
-			function getActiveUser()
-			{		
-				firebase.auth().onAuthStateChanged(firebaseUser => {
-					if (firebaseUser)
-					{
-						document.getElementById("user").innerHTML = firebaseUser['email'];
-						document.getElementById("email").remove();
-						document.getElementById("email_field").remove()
-						document.getElementById("password").remove();
-						document.getElementById("pass_field").remove()
-						document.getElementById("signup_field").remove();
-						document.getElementById("login").remove();
-						document.getElementById("status").innerHTML = "Welcome " + firebaseUser['email'] + ", would you like to log out?";
-					}
-					else
-					{
-						document.getElementById("user").innerHTML = "Log In";
-					}
-				});
-			}
-		</script>
-		
 		<div class="ui sidebar inverted vertical menu">
 			<a onClick="location.assign('..')" class="item">Home</a>
 			<a onClick="location.assign('../Nearby')" class="item">Nearby Menus</a>
@@ -54,36 +31,39 @@
 		<div class="ui large inverted teal top fixed menu container">
 			<a class="header item" onClick="toggleSidebar()"><i class="sidebar icon"></i>Menu</a>
 		</div>
-		
-		<div class="ui middle aligned center aligned grid" style="padding-top: 10%">
-			<div class="column" style="max-width: 768px;">
-				<h2 class="ui teal image header">
-					<div class="content" id="status">
-					Log in to your account
-					</div>
-				</h2>
-				<form class="ui large form">
-					<div class="ui stacked segment">
-						<div class="field" id="email_field">
-							<div class="ui left icon input">
-								<i class="user icon"></i>
-								<input type="text" name="email" id="email" placeholder="E-mail address">
+		<div class="pusher">
+			<div class="ui container" style="margin-top: 20%">
+				<div class="ui middle aligned center aligned grid">
+					<div class="column" style="max-width: 768px;">
+						<h2 class="ui teal image header">
+							<div class="content" id="status">
+							Log in to your account
 							</div>
-						</div>
-						<div class="field" id="pass_field">
-							<div class="ui left icon input">
-								<i class="lock icon"></i>
-								<input type="password" name="password" id="password" placeholder="Password">
+						</h2>
+						<form class="ui large form">
+							<div class="ui stacked segment">
+								<div class="field" id="email_field">
+									<div class="ui left icon input">
+										<i class="user icon"></i>
+										<input type="text" name="email" id="email" placeholder="E-mail address">
+									</div>
+								</div>
+								<div class="field" id="pass_field">
+									<div class="ui left icon input">
+										<i class="lock icon"></i>
+										<input type="password" name="password" id="password" placeholder="Password">
+									</div>
+								</div>
+								<div class="ui fluid large teal submit button" id="login">Login</div> <br>
+								<div class="ui fluid large teal submit button" id="logout">Log out</div>
 							</div>
-						</div>
-						<div class="ui fluid large teal submit button" id="login">Login</div> <br>
-						<div class="ui fluid large teal submit button" id="logout">Log out</div>
-					</div>
-					<div class="ui error message"></div>
-				</form>
+							<div class="ui error message"></div>
+						</form>
 
-				<div class="ui message" id="signup_field">
-					New? <a href="#" id="signup">Sign Up</a>
+						<div class="ui message" id="signup_field">
+							New? <a href="#" id="signup">Sign Up</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
