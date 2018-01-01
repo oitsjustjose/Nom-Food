@@ -8,11 +8,10 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="icon" type="image/png" href="../img/app-icon.png">
 		<link rel="apple-touch-icon" href="../img/app-icon.png">
-		
 		<link rel="stylesheet" type="text/css" href="../semantic/out/semantic.min.css">
 		<link rel="stylesheet" type="text/css" href="../nom.css">
 		<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
-		<script src="../jquery-1.7.2.js"></script>
+        <script src="../jquery-3.1.1.min.js"></script>
 		<script src="../semantic/out/semantic.min.js"></script>
 		<script src="../my-app.js"></script>
 	</head>
@@ -46,13 +45,12 @@
 		</div>
 				
 		<!-- Popup modal for restaurant menus: -->
-		
-		<div class="ui modal menu">
-			<i class="close icon" onClick="closeModal()"></i>
-				<div class="header" id="menu_header"></div>
-				<div class="content" id="menu_content">
-			</div>
-		</div>
+
+        <div class="ui longer modal">
+            <i class="close icon" onclick="$('.ui.longer.modal').modal('hide');"></i>
+            <div class="header" id="menu_header"></div>
+            <div class="scrolling content" id="menu_content"></div>
+        </div>
 		
 		<script src="my-app.js"></script>
 	</body>

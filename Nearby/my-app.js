@@ -28,8 +28,15 @@ function showMenu(el)
             }
 			document.getElementById("menu_content").innerHTML += "Price: " + items[i].price;
 		}
-		
-		$('.ui.modal.menu').modal('show');
+
+		// Show, hide then re-show the modal QUICKLY to fix alignment
+		var menu = $('.ui.longer.modal');
+        menu.modal('show');
+		var timer = setInterval(function() {
+		    menu.modal('hide');
+            menu.modal('show');
+            clearInterval(timer);
+        }, 10);
 	});
 }	
 

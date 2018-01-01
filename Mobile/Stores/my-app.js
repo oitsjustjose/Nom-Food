@@ -77,13 +77,13 @@ function editMenu(el) {
 		document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"plus icon\" id='new_entry' class=\"ui button\" onClick='addNew(this," + items.length + ",\"" + restaurant_name.replace(/'/g , "&#39") + "\")'></i>";
 
 		// Show the modal now that we've generated it.
-		$('.ui.modal.menu').modal('show');
+		$('.ui.longer.modal').modal('show');
 	});
 }
 
 function remove(restaurant_name, item) {
 	firebase.database().ref('Restaurants/' + restaurant_name + "/menu/" + item).remove();
-	$('.ui.modal.menu').modal('hide');
+	$('.ui.longer.modal').modal('hide');
 
 	$.getJSON(firebase.database().ref('Restaurants/' + restaurant_name + '/menu') + '.json', function (data) {
 
@@ -124,7 +124,7 @@ function remove(restaurant_name, item) {
 		document.getElementById("menu_content").innerHTML += "<div id='plus_button' class=\"ui right\"></div>";
 		document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"plus icon\" id='new_entry' class=\"ui button\" onClick='addNew(this," + items.length + ",\"" + restaurant_name.replace(/'/g , "&#39") + "\")'></i>";
 
-		$('.ui.modal.menu').modal('show');
+		$('.ui.longer.modal').modal('show');
 	});
 }
 
@@ -138,16 +138,16 @@ function addNew(el, numItems, restaurant_name) {
     document.getElementById(id).innerHTML += "<br>Image URL: <input type='text' style='width: inherit;'> <a href='https://imgur.com/' id=\"" + id + "_image\" target='_blank'></a><br>";
     document.getElementById(id + "_image").innerHTML = "<sup>(Upload here)</sup>";
 	document.getElementById(id).innerHTML += "<br>Price: <input type='text'><br>";
-	document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id.replace(/'/g , "&#39") + "\")'>Save</button>";
+	document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id.replace(/'/g , "&#39") + "\")'>Save</button><br>";
 
 	document.getElementById("new_entry").style.display = "none";
 
-	$('.ui.modal.menu').modal('hide');
-	$('.ui.modal.menu').modal('show');
+	$('.ui.longer.modal').modal('hide');
+	$('.ui.longer.modal').modal('show');
 }
 
 function saveChanges(el, master_id) {
-	$('.ui.modal.menu').modal('hide');
+	$('.ui.longer.modal').modal('hide');
 	
 	var inputs = document.getElementById(master_id).getElementsByTagName("input");
 	var restaurant_name = master_id.substr(0, master_id.indexOf(":"));
@@ -224,7 +224,7 @@ function saveChanges(el, master_id) {
 			document.getElementById("menu_content").innerHTML += "<div id='plus_button' class=\"ui right\"></div>";
 			document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"plus icon\" id='new_entry' class=\"ui button\" onClick='addNew(this," + items.length + ",\"" + restaurant_name.replace(/'/g , "&#39") + "\")'></i>";
 
-			$('.ui.modal.menu').modal('show');
+			$('.ui.longer.modal').modal('show');
 		});
 	});
 }
