@@ -3,8 +3,8 @@
 }
 
 .ui.inverted.vertical.masthead.center.aligned.segment {
-	background: url(img/cover.jpg);
-	background-size: cover;	
+    background: url(img/cover.jpg);
+    background-size: cover;
 }
 
 .hidden.menu {
@@ -44,7 +44,7 @@
     font-size: 2em;
 }
 
-.ui.vertical.stripe .button+h3, .ui.vertical.stripe p+h3 {
+.ui.vertical.stripe .button + h3, .ui.vertical.stripe p + h3 {
     margin-top: 3em;
 }
 
@@ -78,7 +78,7 @@
 }
 
 a {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 body {
@@ -103,13 +103,13 @@ body {
 }
 
 .descImage {
-	max-width: 100%;
-	max-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .deprecated {
-	text-decoration: line-through;
-	text-decoration-color: red;
+    text-decoration: line-through;
+    text-decoration-color: red;
 }
 
 #map {
@@ -119,5 +119,5 @@ body {
 }
 
 .restaurant_result {
-	cursor: pointer;
+    cursor: pointer;
 }
