@@ -3,9 +3,8 @@
 }
 
 .ui.inverted.vertical.masthead.center.aligned.segment {
-    background-color: #00b5ad;
-	background: url(img/cover.jpg);
-	background-size: cover;
+    background: #00b5ad url(img/cover.jpg);
+    background-size: cover;
 }
 
 .hidden.menu {

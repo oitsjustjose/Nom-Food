@@ -22,10 +22,15 @@ function showMenu(el)
 		
 		for (var i in items)
 		{
-			document.getElementById("menu_content").innerHTML += "<h4 id='" + i + "'></h4><br>";
-			document.getElementById(i).innerHTML = i;
+			document.getElementById("menu_content").innerHTML += "<h4 id='" + i.replace(" ", "_").toLowerCase() + "'></h4><br>";
+			document.getElementById(i.replace(" ", "_").toLowerCase()).innerHTML = i;
 			document.getElementById("menu_content").innerHTML += "Description: " + items[i].desc + "<br>";
 			document.getElementById("menu_content").innerHTML += "Ingredients: " + items[i].ingr + "<br><br>";
+			if(items[i].img !== undefined && items[i].img !== null)
+            {
+                document.getElementById("menu_content").innerHTML += "<div class='ui segment' id='" + i.replace(" ", "_").toLowerCase() + "_img" + "'></div>"
+                document.getElementById(i.replace(" ", "_").toLowerCase() + "_img").innerHTML += "<img src=\"" + items[i].img + "\" class='ui image'><br>";
+            }
 			document.getElementById("menu_content").innerHTML += "Price: " + items[i].price;
 		}
 		

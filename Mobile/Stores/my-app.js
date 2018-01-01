@@ -59,11 +59,15 @@ function editMenu(el) {
 			// Header Name field, with remove button:
 			document.getElementById("menu_content").innerHTML += "<div id=\"" + id + "\"></div>";
 			document.getElementById(id).innerHTML += "<h4 id='" + i + "'></h4>";
-			document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'></input> <button class=\"ui button\" onClick='remove(\"" + restaurant_name + "\",\"" + i + "\")'>Remove</button><br>";
+			document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'> <button class=\"ui button\" onClick='remove(\"" + restaurant_name + "\",\"" + i + "\")'>Remove</button><br>";
 			// Description, ingredients and price:
-			document.getElementById(id).innerHTML += "Description: <input type='text' value=\"" + items[i].desc + "\" style='width: inherit;'></input><br>";
-			document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value=\"" + items[i].ingr + "\" style='width: inherit;'></input><br>";
-			document.getElementById(id).innerHTML += "<br>Price: <input type='number' value=\"" + items[i].price + "\"></input><br>";
+			document.getElementById(id).innerHTML += "Description: <input type='text' value=\"" + items[i].desc + "\" style='width: inherit;'><br>";
+			document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value=\"" + items[i].ingr + "\" style='width: inherit;'><br>";
+			// Image attachment:
+            document.getElementById(id).innerHTML += "<br>Image URL: <input type='text' value=\"" + items[i].img + "\" style='width: inherit;'> <a href='https://imgur.com/' id=\"" + id + "_image\" target='_blank'></a><br>";
+            document.getElementById(id + "_image").innerHTML = "<sup>(Upload here)</sup>";
+
+			document.getElementById(id).innerHTML += "<br>Price: <input type='text' value=\"" + items[i].price + "\"><br>";
 			// Save button:
 			document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id.replace(/'/g , "&#39") + "\")'>Save</button>";
 			tally++;
@@ -99,12 +103,19 @@ function remove(restaurant_name, item) {
 
 		for (var i in items) {
 			var id = restaurant_name + ":" + tally;
-			document.getElementById("menu_content").innerHTML += "<div id='" + id + "'></div>";
+			// Header Name field, with remove button:
+			document.getElementById("menu_content").innerHTML += "<div id=\"" + id + "\"></div>";
 			document.getElementById(id).innerHTML += "<h4 id='" + i + "'></h4>";
-			document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'></input> <button class=\"ui button\" onClick='remove(\"" + restaurant_name + "\",\"" + i + "\")'>Remove</button><br>";
-			document.getElementById(id).innerHTML += "Description: <input type='text' value='" + items[i].desc + "' style='width: inherit;'></input><br>";
-			document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value='" + items[i].ingr + "' style='width: inherit;'></input><br>";
-			document.getElementById(id).innerHTML += "<br>Price: <input type='number' value='" + items[i].price + "'></input><br>";
+			document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'> <button class=\"ui button\" onClick='remove(\"" + restaurant_name + "\",\"" + i + "\")'>Remove</button><br>";
+			// Description, ingredients and price:
+			document.getElementById(id).innerHTML += "Description: <input type='text' value=\"" + items[i].desc + "\" style='width: inherit;'><br>";
+			document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value=\"" + items[i].ingr + "\" style='width: inherit;'><br>";
+			// Image attachment:
+            document.getElementById(id).innerHTML += "<br>Image URL: <input type='text' value=\"" + items[i].img + "\" style='width: inherit;'> <a href='https://imgur.com/' id=\"" + id + "_image\" target='_blank'></a><br>";
+            document.getElementById(id + "_image").innerHTML = "<sup>(Upload here)</sup>";
+
+			document.getElementById(id).innerHTML += "<br>Price: <input type='text' value=\"" + items[i].price + "\"><br>";
+			// Save button:
 			document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id.replace(/'/g , "&#39") + "\")'>Save</button>";
 			tally++;
 		}
@@ -121,10 +132,12 @@ function addNew(el, numItems, restaurant_name) {
 	var id = restaurant_name + ":new";
 	el.parentElement.innerHTML += "<div id=\"" + id + "\"></div>";
 	document.getElementById(id).innerHTML += "<h4 id=\"header_new\"></h4>";
-	document.getElementById("header_new").innerHTML = "Item Name: <input type='text'></input><br>";
-	document.getElementById(id).innerHTML += "Description: <input type='text' style='width: inherit;'></input><br>";
-	document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' style='width: inherit;'></input><br>";
-	document.getElementById(id).innerHTML += "<br>Price: <input type='number'></input><br>";
+	document.getElementById("header_new").innerHTML = "Item Name: <input type='text'><br>";
+	document.getElementById(id).innerHTML += "Description: <input type='text' style='width: inherit;'><br>";
+	document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' style='width: inherit;'><br>";
+    document.getElementById(id).innerHTML += "<br>Image URL: <input type='text' style='width: inherit;'> <a href='https://imgur.com/' id=\"" + id + "_image\" target='_blank'></a><br>";
+    document.getElementById(id + "_image").innerHTML = "<sup>(Upload here)</sup>";
+	document.getElementById(id).innerHTML += "<br>Price: <input type='text'><br>";
 	document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id.replace(/'/g , "&#39") + "\")'>Save</button>";
 
 	document.getElementById("new_entry").style.display = "none";
@@ -142,7 +155,8 @@ function saveChanges(el, master_id) {
 	var item_name = inputs[0].value;
 	var item_desc = inputs[1].value;
 	var item_ingr = inputs[2].value;
-	var item_price = inputs[3].value;
+	var item_img = inputs[3].value;
+	var item_price = inputs[4].value;
 	
 	try {
 		item_price = parseFloat(item_price);
@@ -156,10 +170,17 @@ function saveChanges(el, master_id) {
 		alert("Price formatting is incorrect");
 		return;
 	}
+
+	if (item_img.indexOf('.png') !== item_img.length - 5 && item_img.indexOf('.jpg') !== item_img.length - 4 && item_img.indexOf('.jpeg') !== item_img.length - 5)
+    {
+        alert("Please only attach images ending in .jpg, .jpeg or .png");
+        return;
+    }
 	
 	const promise = firebase.database().ref('Restaurants/' + restaurant_name + '/menu/' + item_name).set({
 		'desc': item_desc,
 		'ingr': item_ingr,
+        'img': item_img,
 		'price': item_price
 	});
 
@@ -181,15 +202,22 @@ function saveChanges(el, master_id) {
 			var tally = 0;
 
 			for (var i in items) {
-				var id = restaurant_name + ":" + tally;
-				document.getElementById("menu_content").innerHTML += "<div id='" + id + "'></div>";
-				document.getElementById(id).innerHTML += "<h4 id='" + i + "'></h4>";
-				document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'></input> <button class=\"ui button\" onClick='remove(\"" + restaurant_name + "\",\"" + i + "\")'>Remove</button><br>";
-				document.getElementById(id).innerHTML += "Description: <input type='text' value='" + items[i].desc + "' style='width: inherit;'></input><br>";
-				document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value='" + items[i].ingr + "' style='width: inherit;'></input><br>";
-				document.getElementById(id).innerHTML += "<br>Price: <input type='number' value='" + items[i].price + "'></input><br>";
-				document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id.replace(/'/g , "&#39") + "\")'>Save</button>";
-				tally++;
+                var id = restaurant_name + ":" + tally;
+                // Header Name field, with remove button:
+                document.getElementById("menu_content").innerHTML += "<div id=\"" + id + "\"></div>";
+                document.getElementById(id).innerHTML += "<h4 id='" + i + "'></h4>";
+                document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'> <button class=\"ui button\" onClick='remove(\"" + restaurant_name + "\",\"" + i + "\")'>Remove</button><br>";
+                // Description, ingredients and price:
+                document.getElementById(id).innerHTML += "Description: <input type='text' value=\"" + items[i].desc + "\" style='width: inherit;'><br>";
+                document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value=\"" + items[i].ingr + "\" style='width: inherit;'><br>";
+                // Image attachment:
+                document.getElementById(id).innerHTML += "<br>Image URL: <input type='text' value=\"" + items[i].img + "\" style='width: inherit;'> <a href='https://imgur.com/' id=\"" + id + "_image\" target='_blank'></a><br>";
+                document.getElementById(id + "_image").innerHTML = "<sup>(Upload here)</sup>";
+
+                document.getElementById(id).innerHTML += "<br>Price: <input type='text' value=\"" + items[i].price + "\"><br>";
+                // Save button:
+                document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveChanges(this,\"" + id.replace(/'/g , "&#39") + "\")'>Save</button>";
+                tally++;
 			}
 
 			// New item button:
