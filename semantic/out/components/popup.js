@@ -162,14 +162,14 @@ $.fn.popup = function(parameters) {
           if(documentObserver) {
             documentObserver.disconnect();
           }
-          // remove element only if was created dynamically
+          // removeMenuItem element only if was created dynamically
           if($popup && !settings.preserve) {
             module.removePopup();
           }
           // clear all timeouts
           clearTimeout(module.hideTimer);
           clearTimeout(module.showTimer);
-          // remove events
+          // removeMenuItem events
           module.unbind.close();
           module.unbind.events();
           $module
@@ -1096,7 +1096,7 @@ $.fn.popup = function(parameters) {
           if(settings.preserve) {
             if($.fn.transition !== undefined) {
               $popup
-                .transition('remove transition')
+                .transition('removeMenuItem transition')
               ;
             }
           }

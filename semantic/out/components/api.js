@@ -368,7 +368,7 @@ $.api = $.fn.api = function(parameters) {
                           ? $context.data(variable)
                           : urlData[variable]
                   ;
-                  // remove value
+                  // removeMenuItem value
                   if(value === undefined) {
                     module.error(error.requiredParameter, variable, url);
                     url = false;
@@ -407,7 +407,7 @@ $.api = $.fn.api = function(parameters) {
                   }
                   else {
                     module.verbose('Optional variable not found', variable);
-                    // remove preceding slash if set
+                    // removeMenuItem preceding slash if set
                     if(url.indexOf('/' + templatedString) !== -1) {
                       url = url.replace('/' + templatedString, '');
                     }

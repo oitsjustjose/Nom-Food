@@ -1058,11 +1058,11 @@ $.fn.dropdown = function(parameters) {
                 $label = $(this).parent()
               ;
               if( $label.hasClass(className.active) ) {
-                // remove all selected labels
+                // removeMenuItem all selected labels
                 module.remove.activeLabels();
               }
               else {
-                // remove this label only
+                // removeMenuItem this label only
                 module.remove.activeLabels( $label );
               }
             }
@@ -2950,7 +2950,7 @@ $.fn.dropdown = function(parameters) {
                   isUserValue = module.is.userValue(stringValue)
                 ;
                 if(settings.onLabelRemove.call($label, value) === false) {
-                  module.debug('Label remove callback cancelled removal');
+                  module.debug('Label removeMenuItem callback cancelled removal');
                   return;
                 }
                 module.remove.message();
@@ -2959,7 +2959,7 @@ $.fn.dropdown = function(parameters) {
                   module.remove.label(stringValue);
                 }
                 else {
-                  // selected will also remove label
+                  // selected will also removeMenuItem label
                   module.remove.selected(stringValue);
                 }
               })

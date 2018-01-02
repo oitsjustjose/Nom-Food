@@ -311,7 +311,7 @@ $.fn.transition = function() {
               animationClass,
               direction
             ;
-            // remove previous callbacks
+            // removeMenuItem previous callbacks
             module.remove.completeCallback();
 
             // determine exact animation

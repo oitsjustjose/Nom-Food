@@ -5415,11 +5415,11 @@ $.fn.dropdown = function(parameters) {
                 $label = $(this).parent()
               ;
               if( $label.hasClass(className.active) ) {
-                // remove all selected labels
+                // removeMenuItem all selected labels
                 module.remove.activeLabels();
               }
               else {
-                // remove this label only
+                // removeMenuItem this label only
                 module.remove.activeLabels( $label );
               }
             }
@@ -7307,7 +7307,7 @@ $.fn.dropdown = function(parameters) {
                   isUserValue = module.is.userValue(stringValue)
                 ;
                 if(settings.onLabelRemove.call($label, value) === false) {
-                  module.debug('Label remove callback cancelled removal');
+                  module.debug('Label removeMenuItem callback cancelled removal');
                   return;
                 }
                 module.remove.message();
@@ -7316,7 +7316,7 @@ $.fn.dropdown = function(parameters) {
                   module.remove.label(stringValue);
                 }
                 else {
-                  // selected will also remove label
+                  // selected will also removeMenuItem label
                   module.remove.selected(stringValue);
                 }
               })
@@ -10572,14 +10572,14 @@ $.fn.popup = function(parameters) {
           if(documentObserver) {
             documentObserver.disconnect();
           }
-          // remove element only if was created dynamically
+          // removeMenuItem element only if was created dynamically
           if($popup && !settings.preserve) {
             module.removePopup();
           }
           // clear all timeouts
           clearTimeout(module.hideTimer);
           clearTimeout(module.showTimer);
-          // remove events
+          // removeMenuItem events
           module.unbind.close();
           module.unbind.events();
           $module
@@ -11506,7 +11506,7 @@ $.fn.popup = function(parameters) {
           if(settings.preserve) {
             if($.fn.transition !== undefined) {
               $popup
-                .transition('remove transition')
+                .transition('removeMenuItem transition')
               ;
             }
           }
@@ -18970,7 +18970,7 @@ $.fn.transition = function() {
               animationClass,
               direction
             ;
-            // remove previous callbacks
+            // removeMenuItem previous callbacks
             module.remove.completeCallback();
 
             // determine exact animation
@@ -20123,7 +20123,7 @@ $.api = $.fn.api = function(parameters) {
                           ? $context.data(variable)
                           : urlData[variable]
                   ;
-                  // remove value
+                  // removeMenuItem value
                   if(value === undefined) {
                     module.error(error.requiredParameter, variable, url);
                     url = false;
@@ -20162,7 +20162,7 @@ $.api = $.fn.api = function(parameters) {
                   }
                   else {
                     module.verbose('Optional variable not found', variable);
-                    // remove preceding slash if set
+                    // removeMenuItem preceding slash if set
                     if(url.indexOf('/' + templatedString) !== -1) {
                       url = url.replace('/' + templatedString, '');
                     }
