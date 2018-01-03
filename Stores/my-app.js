@@ -240,6 +240,10 @@ function updateInfoSaveButton(restaurant_name) {
     var inputs = document.getElementById("address_inputs").getElementsByTagName("input");
 
     document.getElementById("save_info").addEventListener('click', () => {
+        if (!(inputs[4].value.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im))) {
+            inputs[4].setAttribute("style", "outline:2px solid red; outline-offset: -2px");
+            return;
+        }
         geocodeAddress(restaurant_name, inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value, inputs[4].value, document.getElementById("address_inputs").getElementsByTagName("select")[0].value, updateInfo);
     });
 }
