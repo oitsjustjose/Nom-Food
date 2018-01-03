@@ -94,11 +94,25 @@ function editRestaurantName(el) {
 }
 
 function deleteStore(restaurant_name) {
-    if (confirm("Do you really want to remove this store?")) {
+    document.getElementsByTagName("body")[0].innerHTML += "<div class='ui alert modal' id='alert'></div>";
+    document.getElementById("alert").innerHTML = "<div class='content'>" + ("Do you really want to remove " + restaurant_name + "?").replace("\n", "<br>").replace(/'/g, "&#39") + "</div>";
+    document.getElementById("alert").innerHTML += "<div id='buttons' class='ui center aligned segment'></div>";
+    document.getElementById("buttons").innerHTML = "<button class='ui button' id='alertModalConfirm'>Yes</button>";
+    document.getElementById("buttons").innerHTML += "<button class='ui button' id='alertModalReject'>No</button>";
+
+    document.getElementById("alertModalConfirm").addEventListener('click', () => {
         firebase.database().ref('Restaurants/' + restaurant_name).remove();
         location.reload();
-    }
+        $(".ui.alert.modal").modal("hide");
+    });
+
+    document.getElementById("alertModalReject").addEventListener('click', () => {
+        $(".ui.alert.modal").modal("hide");
+    });
+
+    $('.ui.alert.modal').modal('show');
 }
+
 
 function updateNameSaveButton(oldName, newNameEl) {
     var newName = newNameEl.value;

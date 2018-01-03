@@ -29,8 +29,6 @@ function mouseOut(el) {
 }
 
 function getActiveUser() {
-    const auth = firebase.auth();
-
     firebase.auth().onAuthStateChanged(firebaseUser => {
         if (firebaseUser) {
             if (document.getElementById("user_1") != null) {
@@ -86,6 +84,17 @@ function populateMealImages() {
             }
         }
     });
+}
+
+function alert(msg) {
+    if (msg === undefined) {
+        msg = "";
+    }
+    document.getElementsByTagName("body")[0].innerHTML += "<div class='ui alert modal' id='alert'></div>";
+    document.getElementById("alert").innerHTML = "<div class='content'>" + msg.replace("\n", "<br>").replace(/'/g, "&#39") + "</div>";
+    document.getElementById("alert").innerHTML += "<div id='buttons' class='ui center aligned segment'></div>";
+    document.getElementById("buttons").innerHTML = "<button class='ui button' onclick='$(\".ui.alert.modal\").modal(\"hide\");'>Ok</button>";
+    $('.ui.alert.modal').modal('show');
 }
 
 $(document)
