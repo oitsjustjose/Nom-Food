@@ -11,10 +11,6 @@ $(document).ready(function () {
                     {
                         type: 'email',
                         prompt: 'Please enter a valid e-mail'
-                    },
-                    {
-                        type: 'error',
-                        prompt: 'The password does not exist in the system, or it is not valid.'
                     }
                 ]
             },
@@ -28,6 +24,10 @@ $(document).ready(function () {
                     {
                         type: 'length[6]',
                         prompt: 'Your password must be at least 6 characters'
+                    },
+                    {
+                        type: 'error',
+                        prompt: 'The password does not exist in the system, or it is not valid.'
                     }
                 ]
             }
