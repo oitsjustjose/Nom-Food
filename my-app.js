@@ -90,10 +90,10 @@ function alert(msg) {
     if (msg === undefined) {
         msg = "";
     }
-    document.getElementsByTagName("body")[0].innerHTML += "<div class='ui alert modal' id='alert'></div>";
-    document.getElementById("alert").innerHTML = "<div class='content'>" + msg.replace("\n", "<br>").replace(/'/g, "&#39") + "</div>";
-    document.getElementById("alert").innerHTML += "<div id='buttons' class='ui center aligned segment'></div>";
-    document.getElementById("buttons").innerHTML = "<button class='ui button' onclick='$(\".ui.alert.modal\").modal(\"hide\");'>Ok</button>";
+    document.getElementsByTagName("body")[0].innerHTML += "<div class='ui alert modal' id='semantic-alert'></div>";
+    document.getElementById("semantic-alert").innerHTML = "<div class='content'>" + msg.replace("\n", "<br>").replace(/'/g, "&#39") + "</div>";
+    document.getElementById("semantic-alert").innerHTML += "<div id='semantic-alert-buttons' class='ui center aligned segment'></div>";
+    document.getElementById("semantic-alert-buttons").innerHTML = "<button class='ui button' onclick='$(\".ui.alert.modal\").modal(\"hide\");'>Ok</button>";
     $('.ui.alert.modal').modal('show');
 }
 

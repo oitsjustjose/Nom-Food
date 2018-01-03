@@ -1,3 +1,40 @@
+$(document).ready(function () {
+    $('.ui.form').form({
+        fields: {
+            email: {
+                identifier: 'email',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Please enter your e-mail'
+                    },
+                    {
+                        type: 'email',
+                        prompt: 'Please enter a valid e-mail'
+                    },
+                    {
+                        type: 'error',
+                        prompt: 'The password does not exist in the system, or it is not valid.'
+                    }
+                ]
+            },
+            password: {
+                identifier: 'password',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Please enter your password'
+                    },
+                    {
+                        type: 'length[6]',
+                        prompt: 'Your password must be at least 6 characters'
+                    }
+                ]
+            }
+        }
+    });
+});
+
 (function () {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
@@ -11,24 +48,38 @@
 
         promise
             .then(function () {
+                window.user = {
+                };
                 location.assign("..");
             })
-            .catch(e => alert(e.message));
+            .catch(e => {
+                window.user = {
+                    error: true,
+                    message: e.message
+                };
+            });
     });
 
-    logout.addEventListener('click', e => {
+    logout.addEventListener('click', () => {
         firebase.auth().signOut();
         window.location = ".";
     });
 
-    signup.addEventListener('click', e => {
+    signup.addEventListener('click', () => {
         const auth = firebase.auth();
         const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
 
         promise
             .then(function () {
+                window.user = {
+                };
                 window.location = "..";
             })
-            .catch(e => alert(e.message));
+            .catch(e => {
+                window.user = {
+                    error: true,
+                    message: e.message
+                };
+            });
     });
 }());
