@@ -238,13 +238,34 @@ function populateFoodTypes(firstChoice) {
 
 function updateInfoSaveButton(restaurant_name) {
     var inputs = document.getElementById("address_inputs").getElementsByTagName("input");
+    var dropdown = document.getElementById("address_inputs").getElementsByTagName("select")[0];
 
     document.getElementById("save_info").addEventListener('click', () => {
+        if (inputs[0].value === "") {
+            inputs[0].setAttribute("style", "outline:2px solid red; outline-offset: -2px");
+            return;
+        }
+        if (inputs[1].value === "") {
+            inputs[1].setAttribute("style", "outline:2px solid red; outline-offset: -2px");
+            return;
+        }
+        if (inputs[2].value === "") {
+            inputs[2].setAttribute("style", "outline:2px solid red; outline-offset: -2px");
+            return;
+        }
+        if (inputs[3].value === "") {
+            inputs[3].setAttribute("style", "outline:2px solid red; outline-offset: -2px");
+            return;
+        }
         if (!(inputs[4].value.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im))) {
             inputs[4].setAttribute("style", "outline:2px solid red; outline-offset: -2px");
             return;
         }
-        geocodeAddress(restaurant_name, inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value, inputs[4].value, document.getElementById("address_inputs").getElementsByTagName("select")[0].value, updateInfo);
+        if (dropdown.value === "") {
+            dropdown.setAttribute("style", "outline:2px solid red; outline-offset: -2px");
+            return;
+        }
+        geocodeAddress(restaurant_name, inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value, inputs[4].value, dropdown.value, updateInfo);
     });
 }
 
