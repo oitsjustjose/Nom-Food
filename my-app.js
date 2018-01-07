@@ -14,8 +14,7 @@ function mouseOver(el) {
         if (firebaseUser) {
             const width = el.offsetWidth;
             el.setAttribute("style", "width: " + width + "px;");
-            el.innerHTML = "<center>Log out?</center>";
-            el.setAttribute("onClick", "firebase.auth().signOut()");
+            el.innerHTML = "My Account";
         }
     });
 }
