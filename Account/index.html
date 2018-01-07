@@ -30,13 +30,14 @@
     </div>
 </div>
 
-<div class="ui middle aligned center aligned grid" style="padding-top: 10%">
-    <div class="column" style="max-width: 768px;">
+<div class="ui middle aligned center aligned grid" style="height: 90%;">
+    <div class="column" style="max-width: 512px;">
         <h2 class="ui teal image header content" id="status">
-            Log in to your account
+            Log in or sign up
         </h2>
-        <form class="ui large form">
-            <div class="ui stacked segment">
+
+        <form class="ui form">
+            <div class="ui segment">
                 <div class="field" id="email_field">
                     <div class="ui left icon input">
                         <i class="user icon"></i>
@@ -49,7 +50,8 @@
                         <input type="password" name="password" id="password" placeholder="Password">
                     </div>
                 </div>
-                <div class="ui fluid large teal submit button" style="margin-bottom: 8px;" id="login">Login</div>
+                <div class="ui fluid large teal submit button" style="margin-bottom: 8px;" id="login">Login
+                </div>
                 <div class="ui fluid large facebook button" style="margin-bottom: 8px;" id="fblogin">
                     <i class="ui facebook icon"></i>
                     Login with Facebook
@@ -62,7 +64,7 @@
                     <i class="ui twitter icon"></i>
                     Login with Twitter
                 </div>
-                <div class="ui fluid large teal submit button" id="logout">Log out</div>
+                <div class="ui fluid large button" id="logout">Log out</div>
             </div>
             <div class="ui error message"></div>
         </form>
@@ -96,7 +98,7 @@
                 <input type="password" id="new_pass_conf" placeholder="Verify Password">
             </div>
             <div class="field">
-                <div class="ui large button" id="new_register">Register</div>
+                <div class="ui large button" onclick="register()">Register</div>
             </div>
         </form>
     </div>
