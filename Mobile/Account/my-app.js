@@ -35,8 +35,7 @@ $(document).ready(function () {
     });
 });
 
-function createUser()
-{
+(function createUser() {
     document.getElementById("new_register").addEventListener('click', () => {
 
         var first = document.getElementById("new_first");
@@ -94,8 +93,8 @@ function createUser()
             good = false;
         }
 
-
         if (good) {
+            console.log('was good..');
             const promise = firebase.auth().createUserWithEmailAndPassword(email.value, pass.value);
 
             promise.then(function () {
@@ -109,7 +108,7 @@ function createUser()
             });
         }
     });
-}
+}());
 
 (function () {
     firebase.auth().onAuthStateChanged(firebaseUser => {

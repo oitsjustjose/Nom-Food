@@ -35,8 +35,7 @@ $(document).ready(function () {
     });
 });
 
-function createUser()
-{
+(function createUser() {
     document.getElementById("new_register").addEventListener('click', () => {
 
         var first = document.getElementById("new_first");
@@ -77,9 +76,9 @@ function createUser()
             pass_conf.value = "";
             pass_conf.setAttribute("placeholder", "Password must be at least 6 chars");
             pass_conf.setAttribute("style", "outline:2px solid red; outline-offset: -2px");
-
             good = false;
         }
+
         if (pass.value === pass_conf.value && pass.value.length >= 6 && pass_conf.value.length >= 6) {
             pass.removeAttribute("style");
             pass_conf.removeAttribute("style");
@@ -93,7 +92,6 @@ function createUser()
             pass_conf.setAttribute("style", "outline:2px solid red; outline-offset: -2px");
             good = false;
         }
-
 
         if (good) {
             const promise = firebase.auth().createUserWithEmailAndPassword(email.value, pass.value);
@@ -109,7 +107,7 @@ function createUser()
             });
         }
     });
-}
+}());
 
 (function () {
     firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -157,6 +155,6 @@ function createUser()
 
     logout.addEventListener('click', () => {
         firebase.auth().signOut();
-        location.reload();
+        // location.reload();
     });
 }());
