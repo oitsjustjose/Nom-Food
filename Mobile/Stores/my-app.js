@@ -15,16 +15,15 @@ function populateTable()
         {
             items[key] = val;
         });
-
-        firebase.auth().onAuthStateChanged(firebaseUser =>
+        firebase.auth().onAuthStateChanged(() =>
         {
-            if (firebaseUser)
+            if (firebase.auth().currentUser != null)
             {
                 var tally = 0;
 
                 for (var i in items)
                 {
-                    if (items[i].owner_email === firebaseUser.email)
+                    if (items[i].owner_email === firebase.auth().currentUser.providerData[0].email)
                     {
                         document.getElementById("results").innerHTML += "<tr id=\"restaurant_" + tally + "\"</tr>";
                         document.getElementById("restaurant_" + tally).innerHTML += "<td>" + i + " <sup onclick='editRestaurantName(this)' style='cursor: pointer;'>Edit</sup></td>";
@@ -149,10 +148,10 @@ function renameRestaurant(oldName, newName)
         firebase.database().ref('Restaurants/' + newName).set(data);
     }).then(function ()
     {
-        firebase.database().ref('Restaurants/' + oldName).remove();
-    }).then(function ()
-    {
-        location.reload()
+        firebase.database().ref('Restaurants/' + oldName).remove().then(function ()
+        {
+            location.reload();
+        });
     });
 }
 

@@ -46,14 +46,13 @@ function uploadToFirebase(owner_email, lat, lon)
         .then(function ()
         {
             alert("We've added your restaurant, thanks!!");
-            window.location = ".";
         })
         .catch(e => alert(e.message));
 }
 
 const submit = document.getElementById("submit");
 
-submit.addEventListener('click', e =>
+submit.addEventListener('click', () =>
 {
     const first_name = document.getElementById("first_name").value;
     const last_name = document.getElementById("last_name").value;
@@ -73,7 +72,7 @@ submit.addEventListener('click', e =>
     }
     else
     {
-        document.getElementById("first_name").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
+        document.getElementById("first_name").removeAttribute("style");
     }
     if (last_name === "")
     {
@@ -82,7 +81,7 @@ submit.addEventListener('click', e =>
     }
     else
     {
-        document.getElementById("last_name").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
+        document.getElementById("last_name").removeAttribute("style");
     }
     if (restaurant_name === "")
     {
@@ -91,7 +90,7 @@ submit.addEventListener('click', e =>
     }
     else
     {
-        document.getElementById("restaurant_name").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
+        document.getElementById("restaurant_name").removeAttribute("style");
     }
     if (address === "")
     {
@@ -100,7 +99,7 @@ submit.addEventListener('click', e =>
     }
     else
     {
-        document.getElementById("address").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
+        document.getElementById("address").removeAttribute("style");
     }
     if (city === "")
     {
@@ -109,7 +108,7 @@ submit.addEventListener('click', e =>
     }
     else
     {
-        document.getElementById("city").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
+        document.getElementById("city").removeAttribute("style");
     }
     if (area_code === "")
     {
@@ -118,7 +117,7 @@ submit.addEventListener('click', e =>
     }
     else
     {
-        document.getElementById("area_code").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
+        document.getElementById("area_code").removeAttribute("style");
     }
     if (phone_number === "" || !(phone_number.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im)))
     {
@@ -127,7 +126,7 @@ submit.addEventListener('click', e =>
     }
     else
     {
-        document.getElementById("phone_number").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
+        document.getElementById("phone_number").removeAttribute("style");
     }
     if (country === "")
     {
@@ -136,7 +135,7 @@ submit.addEventListener('click', e =>
     }
     else
     {
-        document.getElementById("country").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
+        document.getElementById("country").removeAttribute("style");
     }
     if (food_type === "")
     {
@@ -145,20 +144,20 @@ submit.addEventListener('click', e =>
     }
     else
     {
-        document.getElementById("food_type").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
+        document.getElementById("food_type").removeAttribute("style");
     }
 
     if (good)
     {
-        firebase.auth().onAuthStateChanged(firebaseUser =>
+        firebase.auth().onAuthStateChanged(() =>
         {
-            if (firebaseUser)
+            if (firebase.auth().currentUser == null)
             {
-                geocodeAddress(address + " " + area_code + " " + country, firebaseUser['email'], uploadToFirebase);
+                alert("Please sign in before submitting...");
             }
             else
             {
-                alert("Please sign in before submitting...");
+                geocodeAddress(address + " " + area_code + " " + country, firebase.auth().currentUser.providerData[0].email, uploadToFirebase);
             }
         });
     }

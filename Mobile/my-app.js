@@ -26,22 +26,20 @@ function mouseOut(el)
 {
     firebase.auth().onAuthStateChanged(firebaseUser =>
     {
-        if (firebaseUser)
+        if (firebase.auth().currentUser != null)
         {
-            el.innerHTML = firebaseUser['email'];
+            el.innerHTML = firebase.auth().currentUser.providerData[0].email;
         }
     });
 }
 
 function getActiveUser()
 {
-    const auth = firebase.auth();
-
-    firebase.auth().onAuthStateChanged(firebaseUser =>
+    firebase.auth().onAuthStateChanged(() =>
     {
-        if (firebaseUser)
+        if (firebase.auth().currentUser != null)
         {
-            document.getElementById("user").innerHTML = firebaseUser['email'];
+            document.getElementById("user").innerHTML = firebase.auth().currentUser.providerData[0].email;
         }
         else
         {

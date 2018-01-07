@@ -26,30 +26,32 @@ function mouseOut(el)
 {
     firebase.auth().onAuthStateChanged(firebaseUser =>
     {
-        if (firebaseUser)
+        if (firebase.auth().currentUser != null)
         {
-            el.innerHTML = firebaseUser['email'];
+            el.innerHTML = firebase.auth().currentUser.providerData[0].email;
         }
     });
 }
 
 function getActiveUser()
 {
-    firebase.auth().onAuthStateChanged(firebaseUser =>
+    firebase.auth().onAuthStateChanged(() =>
     {
-        if (firebaseUser)
+        if (firebase.auth().currentUser != null)
         {
+            var email = firebase.auth().currentUser.providerData[0].email;
+
             if (document.getElementById("user_1") != null)
             {
-                document.getElementById("user_1").innerHTML = firebaseUser['email'];
+                document.getElementById("user_1").innerHTML = email;
             }
             if (document.getElementById("user_2") != null)
             {
-                document.getElementById("user_2").innerHTML = firebaseUser['email'];
+                document.getElementById("user_2").innerHTML = email;
             }
             if (document.getElementById("user") != null)
             {
-                document.getElementById("user").innerHTML = firebaseUser['email'];
+                document.getElementById("user").innerHTML = email;
             }
         }
         else
@@ -117,7 +119,7 @@ function alert(msg)
         msg = "";
     }
     document.getElementsByTagName("body")[0].innerHTML += "<div class='ui alert modal' id='semantic-alert'></div>";
-    document.getElementById("semantic-alert").innerHTML = "<div class='content'>" + msg.replace("\n", "<br>").replace(/'/g, "&#39") + "</div>";
+    document.getElementById("semantic-alert").innerHTML = "<div class='content' style='text-align: center;font-size: 20px;'>" + msg.replace("\n", "<br>").replace(/'/g, "&#39") + "</div>";
     document.getElementById("semantic-alert").innerHTML += "<div id='semantic-alert-buttons' class='ui center aligned segment'></div>";
     document.getElementById("semantic-alert-buttons").innerHTML = "<button class='ui button' onclick='$(\".ui.alert.modal\").modal(\"hide\");'>Ok</button>";
     $('.ui.alert.modal').modal('show');

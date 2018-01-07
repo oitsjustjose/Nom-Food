@@ -38,23 +38,15 @@ $(document).ready(function ()
 
 function loginWithFacebook()
 {
-}
+    var provider = new firebase.auth.FacebookAuthProvider();
 
-function loginWithGoogle()
-{
-    var provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/userinfo.email');
-    provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
-
-    const promise = firebase.auth().signInWithRedirect(provider);
+    const promise = firebase.auth().signInWithPopup(provider);
 
     promise.then(function (result)
     {
         var user = result.user;
         var first_name = user.displayName.split(" ")[0];
         var last_name = user.displayName.split(" ")[1];
-
-        console.log(first_name + " " + last_name);
 
         if (first_name === undefined)
         {
@@ -74,14 +66,99 @@ function loginWithGoogle()
         });
     }).catch(e =>
     {
-        console.log(e.message);
+        if (e.message.indexOf("Sign in using a provider associated with this email address") !== -1)
+        {
+            alert("Looks like you've already logged in here with another service. Please use it instead.");
+        }
+        else
+        {
+            console.log(e.message);
+        }
+    });
+}
+
+function loginWithGoogle()
+{
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/userinfo.email');
+    provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
+    const promise = firebase.auth().signInWithPopup(provider);
+
+    promise.then(function (result)
+    {
+        var user = result.user;
+        var first_name = user.displayName.split(" ")[0];
+        var last_name = user.displayName.split(" ")[1];
+
+        if (first_name === undefined)
+        {
+            first_name = "";
+        }
+        if (last_name === undefined)
+        {
+            last_name = "";
+        }
+
+        firebase.database().ref("Users/" + user.uid).set({
+            first: first_name,
+            last: last_name
+        }).then(function ()
+        {
+            location.reload()
+        });
+    }).catch(e =>
+    {
+        if (e.message.indexOf("Sign in using a provider associated with this email address") !== -1)
+        {
+            alert("Looks like you've already logged in here with another service. Please use it instead.");
+        }
+        else
+        {
+            console.log(e.message);
+        }
     });
 }
 
 function loginWithTwitter()
 {
-}
+    var provider = new firebase.auth.TwitterAuthProvider();
 
+    const promise = firebase.auth().signInWithPopup(provider);
+
+    promise.then(function (result)
+    {
+        var user = result.user;
+        var first_name = user.displayName.split(" ")[0];
+        var last_name = user.displayName.split(" ")[1];
+
+        if (first_name === undefined)
+        {
+            first_name = "";
+        }
+        if (last_name === undefined)
+        {
+            last_name = "";
+        }
+
+        firebase.database().ref("Users/" + user.uid).set({
+            first: first_name,
+            last: last_name
+        }).then(function ()
+        {
+            location.reload()
+        });
+    }).catch(e =>
+    {
+        if (e.message.indexOf("Sign in using a provider associated with this email address") !== -1)
+        {
+            alert("Looks like you've already logged in here with another service. Please use it instead.");
+        }
+        else
+        {
+            console.log(e.message);
+        }
+    });
+}
 function register()
 {
     var first = document.getElementById("new_first");
