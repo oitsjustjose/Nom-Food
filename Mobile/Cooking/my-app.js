@@ -1,18 +1,23 @@
-function geocodeAddress(address, owner_email, callback) {
+function geocodeAddress(address, owner_email, callback)
+{
     var geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'address': address}, function (results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
+    geocoder.geocode({'address': address}, function (results, status)
+    {
+        if (status === google.maps.GeocoderStatus.OK)
+        {
             var lat = results[0].geometry.location.lat();
             var lon = results[0].geometry.location.lng();
             callback(owner_email, lat, lon);
         }
-        else {
+        else
+        {
             console.log("Geocode was not successful for the following reason: " + status);
         }
     });
 }
 
-function uploadToFirebase(owner_email, lat, lon) {
+function uploadToFirebase(owner_email, lat, lon)
+{
     const first_name = document.getElementById("first_name").value;
     const last_name = document.getElementById("last_name").value;
     const restaurant_name = document.getElementById("restaurant_name").value;
@@ -38,7 +43,8 @@ function uploadToFirebase(owner_email, lat, lon) {
     });
 
     promise
-        .then(function () {
+        .then(function ()
+        {
             alert("We've added your restaurant, thanks!!");
             window.location = ".";
         })
@@ -47,7 +53,8 @@ function uploadToFirebase(owner_email, lat, lon) {
 
 const submit = document.getElementById("submit");
 
-submit.addEventListener('click', e => {
+submit.addEventListener('click', e =>
+{
     const first_name = document.getElementById("first_name").value;
     const last_name = document.getElementById("last_name").value;
     const restaurant_name = document.getElementById("restaurant_name").value;
@@ -59,76 +66,98 @@ submit.addEventListener('click', e => {
     const food_type = document.getElementById("food_type").value;
     var good = true;
 
-    if (first_name === "") {
+    if (first_name === "")
+    {
         document.getElementById("first_name").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
         good = false;
     }
-    else {
+    else
+    {
         document.getElementById("first_name").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
     }
-    if (last_name === "") {
+    if (last_name === "")
+    {
         document.getElementById("last_name").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
         good = false;
     }
-    else {
+    else
+    {
         document.getElementById("last_name").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
     }
-    if (restaurant_name === "") {
+    if (restaurant_name === "")
+    {
         document.getElementById("restaurant_name").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
         good = false;
     }
-    else {
+    else
+    {
         document.getElementById("restaurant_name").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
     }
-    if (address === "") {
+    if (address === "")
+    {
         document.getElementById("address").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
         good = false;
     }
-    else {
+    else
+    {
         document.getElementById("address").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
     }
-    if (city === "") {
+    if (city === "")
+    {
         document.getElementById("city").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
         good = false;
     }
-    else {
+    else
+    {
         document.getElementById("city").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
     }
-    if (area_code === "") {
+    if (area_code === "")
+    {
         document.getElementById("area_code").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
         good = false;
     }
-    else {
+    else
+    {
         document.getElementById("area_code").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
     }
-    if (phone_number === "" || !(phone_number.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im))) {
+    if (phone_number === "" || !(phone_number.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im)))
+    {
         document.getElementById("phone_number").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
         good = false;
     }
-    else {
+    else
+    {
         document.getElementById("phone_number").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
     }
-    if (country === "") {
+    if (country === "")
+    {
         document.getElementById("country").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
         good = false;
     }
-    else {
+    else
+    {
         document.getElementById("country").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
     }
-    if (food_type === "") {
+    if (food_type === "")
+    {
         document.getElementById("food_type").setAttribute("style", "outline:2px solid red; outline-offset: -2px");
         good = false;
     }
-    else {
+    else
+    {
         document.getElementById("food_type").removeAttribute("style", "outline:2px solid red; outline-offset: -2px");
     }
 
-    if (good) {
-        firebase.auth().onAuthStateChanged(firebaseUser => {
-            if (firebaseUser) {
+    if (good)
+    {
+        firebase.auth().onAuthStateChanged(firebaseUser =>
+        {
+            if (firebaseUser)
+            {
                 geocodeAddress(address + " " + area_code + " " + country, firebaseUser['email'], uploadToFirebase);
             }
-            else {
+            else
+            {
                 alert("Please sign in before submitting...");
             }
         });

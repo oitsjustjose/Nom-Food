@@ -3,22 +3,29 @@ populateTable();
 var firebase = firebase;
 var document = document;
 
-function populateTable() {
+function populateTable()
+{
     var database = firebase.database();
 
-    $.getJSON(database.ref('Restaurants') + '.json', function (data) {
+    $.getJSON(database.ref('Restaurants') + '.json', function (data)
+    {
         var items = [];
 
-        $.each(data, function (key, val) {
+        $.each(data, function (key, val)
+        {
             items[key] = val;
         });
 
-        firebase.auth().onAuthStateChanged(firebaseUser => {
-            if (firebaseUser) {
+        firebase.auth().onAuthStateChanged(firebaseUser =>
+        {
+            if (firebaseUser)
+            {
                 var tally = 0;
 
-                for (var i in items) {
-                    if (items[i].owner_email === firebaseUser.email) {
+                for (var i in items)
+                {
+                    if (items[i].owner_email === firebaseUser.email)
+                    {
                         document.getElementById("results").innerHTML += "<tr id=\"restaurant_" + tally + "\"</tr>";
                         document.getElementById("restaurant_" + tally).innerHTML += "<td>" + i + " <sup onclick='editRestaurantName(this)' style='cursor: pointer;'>Edit</sup></td>";
                         document.getElementById("restaurant_" + tally).innerHTML += "<td>" + items[i].address + ", " + items[i].area_code + " <sup onclick='editInfo(this)' style='cursor: pointer;'>Edit</sup></td>";
@@ -26,25 +33,30 @@ function populateTable() {
                         tally++;
                     }
                 }
-            } else {
+            } else
+            {
                 document.getElementById("rest_header").innerHTML = "Please log in to manage your restaurants";
             }
         });
     });
 }
 
-function editMenu(el) {
+function editMenu(el)
+{
     var restaurant_name = (el.parentElement.innerHTML);
     // Get the name of the restaurant from the innerHTML string; it's the first <td>
     restaurant_name = restaurant_name.substr(restaurant_name.indexOf('<td>') + 4, restaurant_name.indexOf('</td>') - 4);
     restaurant_name = restaurant_name.substr(0, restaurant_name.indexOf(' <sup'));
 
-    $.getJSON(firebase.database().ref('Restaurants/' + restaurant_name + '/menu') + '.json', function (data) {
+    $.getJSON(firebase.database().ref('Restaurants/' + restaurant_name + '/menu') + '.json', function (data)
+    {
 
         var items = [];
 
-        if (data !== null) {
-            $.each(data, function (key, val) {
+        if (data !== null)
+        {
+            $.each(data, function (key, val)
+            {
                 items[key] = val;
             });
         }
@@ -55,7 +67,8 @@ function editMenu(el) {
 
         var tally = 0;
 
-        for (var i in items) {
+        for (var i in items)
+        {
             var id = restaurant_name + ":" + tally;
             // Header Name field, with removeMenuItem button:
             document.getElementById("menu_content").innerHTML += "<div id=\"" + id + "\"></div>";
@@ -82,7 +95,8 @@ function editMenu(el) {
     });
 }
 
-function editRestaurantName(el) {
+function editRestaurantName(el)
+{
     var restaurant_name = (el.parentElement.innerHTML);
     restaurant_name = restaurant_name.substr(0, restaurant_name.indexOf(' <sup'));
 
@@ -93,20 +107,23 @@ function editRestaurantName(el) {
     $('.ui.longer.modal').modal('show');
 }
 
-function deleteStore(restaurant_name) {
+function deleteStore(restaurant_name)
+{
     document.getElementsByTagName("body")[0].innerHTML += "<div class='ui alert modal' id='alert'></div>";
     document.getElementById("alert").innerHTML = "<div class='content'>" + ("Do you really want to remove " + restaurant_name + "?").replace("\n", "<br>").replace(/'/g, "&#39") + "</div>";
     document.getElementById("alert").innerHTML += "<div id='buttons' class='ui center aligned segment'></div>";
     document.getElementById("buttons").innerHTML = "<button class='ui button' id='alertModalConfirm'>Yes</button>";
     document.getElementById("buttons").innerHTML += "<button class='ui button' id='alertModalReject'>No</button>";
 
-    document.getElementById("alertModalConfirm").addEventListener('click', () => {
+    document.getElementById("alertModalConfirm").addEventListener('click', () =>
+    {
         firebase.database().ref('Restaurants/' + restaurant_name).remove();
         location.reload();
         $(".ui.alert.modal").modal("hide");
     });
 
-    document.getElementById("alertModalReject").addEventListener('click', () => {
+    document.getElementById("alertModalReject").addEventListener('click', () =>
+    {
         $(".ui.alert.modal").modal("hide");
     });
 
@@ -114,33 +131,41 @@ function deleteStore(restaurant_name) {
 }
 
 
-function updateNameSaveButton(oldName, newNameEl) {
+function updateNameSaveButton(oldName, newNameEl)
+{
     var newName = newNameEl.value;
 
-    document.getElementById("save_name").addEventListener('click', () => {
+    document.getElementById("save_name").addEventListener('click', () =>
+    {
         renameRestaurant(oldName, newName);
     });
 }
 
-function renameRestaurant(oldName, newName) {
-    firebase.database().ref('Restaurants/' + oldName).once('value').then(function (snapshot) {
+function renameRestaurant(oldName, newName)
+{
+    firebase.database().ref('Restaurants/' + oldName).once('value').then(function (snapshot)
+    {
         var data = snapshot.val();
         firebase.database().ref('Restaurants/' + newName).set(data);
-    }).then(function () {
+    }).then(function ()
+    {
         firebase.database().ref('Restaurants/' + oldName).remove();
-    }).then(function () {
+    }).then(function ()
+    {
         location.reload()
     });
 }
 
-function editInfo(el) {
+function editInfo(el)
+{
     var restaurant_name = (el.parentElement.parentElement.innerHTML);
     restaurant_name = restaurant_name.substr(restaurant_name.indexOf('<td>') + 4, restaurant_name.indexOf('</td>') - 4);
     restaurant_name = restaurant_name.substr(0, restaurant_name.indexOf(' <sup'));
 
     document.getElementById("menu_header").innerHTML = "Edit Address";
 
-    $.getJSON(firebase.database().ref('Restaurants/' + restaurant_name) + '.json', function (data) {
+    $.getJSON(firebase.database().ref('Restaurants/' + restaurant_name) + '.json', function (data)
+    {
         document.getElementById("menu_content").innerHTML = "<div id='address_inputs'></div>";
         document.getElementById("address_inputs").innerHTML = "Street Address: <input onchange='updateInfoSaveButton(\"" + restaurant_name.replace(/'/g, "&#39") + "\")' value='" + data.address + "'><br>";
         document.getElementById("address_inputs").innerHTML += "<br>City: <input onchange='updateInfoSaveButton(\"" + restaurant_name.replace(/'/g, "&#39") + "\")' value='" + data.city + "'><br>";
@@ -151,14 +176,17 @@ function editInfo(el) {
         document.getElementById("address_inputs").innerHTML += "<br> <button class=\"ui button\" id='save_info' >Save</button>";
 
         populateFoodTypes(data.food_type);
-    }).then(function () {
+    }).then(function ()
+    {
         $('.ui.longer.modal').modal('show');
     });
 }
 
-function populateFoodTypes(firstChoice) {
+function populateFoodTypes(firstChoice)
+{
     var select = document.getElementById('food_type_selector');
-    var firstChoiceFormatted = firstChoice.replace(/\w\S*/g, function (txt) {
+    var firstChoiceFormatted = firstChoice.replace(/\w\S*/g, function (txt)
+    {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
     select.innerHTML += "<option value=" + firstChoice + ">" + firstChoiceFormatted + "</option>";
@@ -250,43 +278,53 @@ function populateFoodTypes(firstChoice) {
     select.innerHTML += "<option value='zanzibari'>Zanzibari</option>";
 }
 
-function updateInfoSaveButton(restaurant_name) {
+function updateInfoSaveButton(restaurant_name)
+{
     var inputs = document.getElementById("address_inputs").getElementsByTagName("input");
     var dropdown = document.getElementById("address_inputs").getElementsByTagName("select")[0];
     var good = true;
 
-    document.getElementById("save_info").addEventListener('click', () => {
-        if (inputs[0].value === "") {
+    document.getElementById("save_info").addEventListener('click', () =>
+    {
+        if (inputs[0].value === "")
+        {
             inputs[0].setAttribute("style", "outline:2px solid red; outline-offset: -2px");
             good = false;
         }
-        if (inputs[1].value === "") {
+        if (inputs[1].value === "")
+        {
             inputs[1].setAttribute("style", "outline:2px solid red; outline-offset: -2px");
             good = false;
         }
-        if (inputs[2].value === "") {
+        if (inputs[2].value === "")
+        {
             inputs[2].setAttribute("style", "outline:2px solid red; outline-offset: -2px");
             good = false;
         }
-        if (inputs[3].value === "") {
+        if (inputs[3].value === "")
+        {
             inputs[3].setAttribute("style", "outline:2px solid red; outline-offset: -2px");
             good = false;
         }
-        if (!(inputs[4].value.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im))) {
+        if (!(inputs[4].value.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im)))
+        {
             inputs[4].setAttribute("style", "outline:2px solid red; outline-offset: -2px");
             good = false;
         }
-        if (dropdown.value === "") {
+        if (dropdown.value === "")
+        {
             dropdown.setAttribute("style", "outline:2px solid red; outline-offset: -2px");
             good = false;
         }
-        if (good) {
+        if (good)
+        {
             geocodeAddress(restaurant_name, inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value, inputs[4].value, dropdown.value, updateInfo);
         }
     });
 }
 
-function updateInfo(restaurant_name, address, city, area_code, country, phone_number, food_type, lat, lon) {
+function updateInfo(restaurant_name, address, city, area_code, country, phone_number, food_type, lat, lon)
+{
     const promise = firebase.database().ref('Restaurants/' + restaurant_name).update({
         'address': address,
         'city': city,
@@ -299,36 +337,45 @@ function updateInfo(restaurant_name, address, city, area_code, country, phone_nu
     });
 
     promise
-        .then(function () {
+        .then(function ()
+        {
             location.reload();
         })
         .catch(e => alert(e.message));
 }
 
-function geocodeAddress(restaurant_name, address, city, area_code, country, phone_number, food_type, callback) {
+function geocodeAddress(restaurant_name, address, city, area_code, country, phone_number, food_type, callback)
+{
     var geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'address': address + " " + city + " " + area_code + " " + country}, function (results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
+    geocoder.geocode({'address': address + " " + city + " " + area_code + " " + country}, function (results, status)
+    {
+        if (status === google.maps.GeocoderStatus.OK)
+        {
             var lat = results[0].geometry.location.lat();
             var lon = results[0].geometry.location.lng();
             callback(restaurant_name, address, city, area_code, country, phone_number, food_type, lat, lon);
         }
-        else {
+        else
+        {
             console.log("Geocode was not successful for the following reason: " + status);
         }
     });
 }
 
-function removeMenuItem(restaurant_name, item) {
+function removeMenuItem(restaurant_name, item)
+{
     firebase.database().ref('Restaurants/' + restaurant_name + "/menu/" + item).remove();
     $('.ui.longer.modal').modal('hide');
 
-    $.getJSON(firebase.database().ref('Restaurants/' + restaurant_name + '/menu') + '.json', function (data) {
+    $.getJSON(firebase.database().ref('Restaurants/' + restaurant_name + '/menu') + '.json', function (data)
+    {
 
         var items = [];
 
-        if (data !== null) {
-            $.each(data, function (key, val) {
+        if (data !== null)
+        {
+            $.each(data, function (key, val)
+            {
                 items[key] = val;
             });
         }
@@ -339,7 +386,8 @@ function removeMenuItem(restaurant_name, item) {
 
         var tally = 0;
 
-        for (var i in items) {
+        for (var i in items)
+        {
             var id = restaurant_name + ":" + tally;
             // Header Name field, with removeMenuItem button:
             document.getElementById("menu_content").innerHTML += "<div id=\"" + id + "\"></div>";
@@ -366,7 +414,8 @@ function removeMenuItem(restaurant_name, item) {
     });
 }
 
-function addNewMenuItem(el, numItems, restaurant_name) {
+function addNewMenuItem(el, numItems, restaurant_name)
+{
     var id = restaurant_name + ":new";
     el.parentElement.innerHTML += "<div id=\"" + id + "\"></div>";
     document.getElementById(id).innerHTML += "<h4 id=\"header_new\"></h4>";
@@ -384,7 +433,8 @@ function addNewMenuItem(el, numItems, restaurant_name) {
     $('.ui.longer.modal').modal('show');
 }
 
-function saveMenuChanges(el, master_id) {
+function saveMenuChanges(el, master_id)
+{
     $('.ui.longer.modal').modal('hide');
 
     var inputs = document.getElementById(master_id).getElementsByTagName("input");
@@ -396,19 +446,23 @@ function saveMenuChanges(el, master_id) {
     var item_img = inputs[3].value;
     var item_price = inputs[4].value;
 
-    try {
+    try
+    {
         item_price = parseFloat(item_price);
-    } catch (err) {
+    } catch (err)
+    {
         alert("Price formatting is incorrect");
         return;
     }
 
-    if (isNaN(item_price)) {
+    if (isNaN(item_price))
+    {
         alert("Price formatting is incorrect");
         return;
     }
 
-    if (item_img.indexOf('.png') !== item_img.length - 5 && item_img.indexOf('.jpg') !== item_img.length - 4 && item_img.indexOf('.jpeg') !== item_img.length - 5) {
+    if (item_img.indexOf('.png') !== item_img.length - 5 && item_img.indexOf('.jpg') !== item_img.length - 4 && item_img.indexOf('.jpeg') !== item_img.length - 5)
+    {
         alert("Please only attach images ending in .jpg, .jpeg or .png");
         return;
     }
@@ -420,13 +474,17 @@ function saveMenuChanges(el, master_id) {
         'price': item_price
     });
 
-    promise.then(function () {
+    promise.then(function ()
+    {
         // TODO: reload thet main list..?
-        $.getJSON(firebase.database().ref('Restaurants/' + restaurant_name + '/menu') + '.json', function (data) {
+        $.getJSON(firebase.database().ref('Restaurants/' + restaurant_name + '/menu') + '.json', function (data)
+        {
             var items = [];
 
-            if (data !== null) {
-                $.each(data, function (key, val) {
+            if (data !== null)
+            {
+                $.each(data, function (key, val)
+                {
                     items[key] = val;
                 });
             }
@@ -437,7 +495,8 @@ function saveMenuChanges(el, master_id) {
 
             var tally = 0;
 
-            for (var i in items) {
+            for (var i in items)
+            {
                 var id = restaurant_name + ":" + tally;
                 // Header Name field, with removeMenuItem button:
                 document.getElementById("menu_content").innerHTML += "<div id=\"" + id + "\"></div>";
