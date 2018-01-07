@@ -155,6 +155,6 @@ $(document).ready(function () {
 
     logout.addEventListener('click', () => {
         firebase.auth().signOut();
-        // location.reload();
+        location.reload();
     });
 }());
