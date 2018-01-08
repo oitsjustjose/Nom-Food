@@ -36,6 +36,54 @@
 <div class="pusher">
     <div class="ui content" style="padding-top: 64px;">
         <div class="ui button" onclick="$('.ui.payment.modal').modal('show');">Show Modal</div>
+        <input type="file" accept="image/*" onchange="uploadFile()">
+        <i id="loader"></i>
+        <img src="" id="image" style="width: 100%; height: auto; align-content: center;">
+        <script>
+            function uploadFile()
+            {
+                if (firebase.auth().currentUser)
+                {
+                    var file = document.querySelector('input[type=file]').files[0]; //sames as here
+                    var storage = firebase.storage().ref();
+                    var ref = storage.child(firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + "/" + file.name);
+                    var uploadTask = ref.put(file);
+                    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+                        function (snapshot)
+                        {
+                            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                            switch (snapshot.state)
+                            {
+                                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                                    document.getElementById("loader").setAttribute("class", "large pause icon");
+                                    break;
+                                case firebase.storage.TaskState.RUNNING: // or 'running'
+                                    document.getElementById("loader").setAttribute("class", "ui active inline loader");
+                                    break;
+                            }
+                        }, function (error)
+                        {
+                            switch (error.code)
+                            {
+                                case 'storage/unauthorized':
+                                    break;
+                                case 'storage/canceled':
+                                    break;
+                                case 'storage/unknown':
+                                    break;
+                            }
+                        }, function ()
+                        {
+                            document.getElementById("loader").setAttribute("class", "large checkmark icon");
+                            document.getElementById("image").setAttribute("src", uploadTask.snapshot.downloadURL);
+                        });
+                }
+                else
+                {
+                    alert("please log in before uploading");
+                }
+            }
+        </script>
     </div>
 </div>
 

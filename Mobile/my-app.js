@@ -3,7 +3,7 @@ var config = {
     authDomain: "foodie-1420b.firebaseapp.com",
     databaseURL: "https://foodie-1420b.firebaseio.com",
     projectId: "foodie-1420b",
-    storageBucket: "",
+    storageBucket: "gs://foodie-1420b.appspot.com",
     messagingSenderId: "347004995162"
 };
 
