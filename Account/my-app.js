@@ -36,6 +36,7 @@ $(document).ready(function ()
     });
 });
 
+
 function loginWithFacebook()
 {
     var provider = new firebase.auth.FacebookAuthProvider();
@@ -235,7 +236,7 @@ function register()
         {
             firebase.auth().onAuthStateChanged(firebaseUser =>
             {
-                firebase.database().ref("Users/" + firebaseUser.uid).set({
+                firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + "/Name").set({
                     first: first.value,
                     last: last.value
                 }).then(function ()
@@ -261,7 +262,7 @@ function register()
             document.getElementById("googlelogin").remove();
             document.getElementById("twitterlogin").remove();
 
-            firebase.database().ref("Users/" + firebaseUser.uid + "/first").on('value', function (snapshot)
+            firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + "/Name" + "/first").on('value', function (snapshot)
             {
                 document.getElementById("status").innerHTML = "Welcome " + snapshot.val() + ", would you like to log out?";
             });

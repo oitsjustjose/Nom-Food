@@ -19,8 +19,8 @@ function showMenu(el)
 
         for (var i in items)
         {
-            document.getElementById("menu_content").innerHTML += "<h4 id='" + i + "'></h4><br>";
-            document.getElementById(i).innerHTML = i;
+            document.getElementById("menu_content").innerHTML += "<h4 id='" + i.replace(" ", "_").toLowerCase() + "'></h4><br>";
+            document.getElementById(i.replace(" ", "_").toLowerCase()).innerHTML = i + " <i class='ui large shop icon' style='cursor: pointer;' onclick='addToCart(this,\"" + el.innerHTML.replace(/'/g, "&#39") + "\",\"" + i.replace(/'/g, "&#39") + "\"," + items[i].price + "," + 1 + ")'>";
             document.getElementById("menu_content").innerHTML += "Description: " + items[i].desc + "<br>";
             document.getElementById("menu_content").innerHTML += "Ingredients: " + items[i].ingr + "<br><br>";
             if (items[i].img !== undefined && items[i].img !== null)
@@ -41,6 +41,25 @@ function showMenu(el)
             clearInterval(timer);
         }, 10);
     });
+}
+
+function addToCart(el, restaurant, item, price, qty)
+{
+    // Set the shopping icon to a checkmark, with a onClick to set it back to a cart with an onClick to add to cart again...
+    el.setAttribute("class", "ui large checkmark icon");
+
+    firebase.database().ref('Restaurants/' + restaurant.replace("&#39", "'")).on('value', function (snapshot)
+    {
+        firebase.database().ref('Users/' + firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + '/cart/' + item).set({
+            price: price,
+            restaurant: restaurant.replace("&#39", "'"),
+            restaurant_owner: snapshot.val().owner_email,
+            qty: qty
+        });
+    });
+
+    var newQty = qty + 1;
+    el.setAttribute("onclick", "function foo (el) { el.setAttribute('class', 'ui large shop icon'); el.setAttribute('onclick', 'addToCart(this,\"" + restaurant.replace(/'/g, "&#39") + "\",\"" + item + "\"," + price + "," + newQty + ")'); } foo(this);");
 }
 
 function longfunctionfirst(callback)
@@ -98,7 +117,7 @@ function getNearbyLocations(position)
 
             if (!isNaN(distance) && distance <= 25)
             {
-                document.getElementById("results").innerHTML += "<tr id=\"restaurant_" + tally + "\"></tr>";
+                document.getElementById("results").innerHTML += "<tr style='cursor: pointer' id=\"restaurant_" + tally + "\"></tr>";
                 document.getElementById("restaurant_" + tally).innerHTML += "<td onClick='showMenu(this)' class='restaurant_result'>" + i + "</td>";
                 document.getElementById("restaurant_" + tally).innerHTML += "<td>" + items[i].food_type + "</td>";
                 document.getElementById("restaurant_" + tally).innerHTML += "<td>" + Math.round(distance) + " mi" + "</td>";
