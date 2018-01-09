@@ -117,7 +117,7 @@ function editMenu(el)
             // Header Name field, with removeMenuItem button:
             document.getElementById("menu_content").innerHTML += "<div id=\"" + id + "\"></div>";
             document.getElementById(id).innerHTML += "<h4 id='" + i + "'></h4>";
-            document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'> <button class=\"ui button\" onClick='removeMenuItem(\"" + restaurant_name + "\",\"" + i + "\")'>Remove</button><br>";
+            document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'> <button class=\"ui button\" onClick='removeMenuItem(\"" + restaurant_name.replace(/'/g, "&#39") + "\",\"" + i + "\")'>Remove</button><br>";
             // Description, ingredients and price:
             document.getElementById(id).innerHTML += "Description: <input type='text' value=\"" + items[i].desc + "\" style='width: inherit;'><br>";
             document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value=\"" + items[i].ingr + "\" style='width: inherit;'><br>";
@@ -435,7 +435,7 @@ function removeMenuItem(restaurant_name, item)
             // Header Name field, with removeMenuItem button:
             document.getElementById("menu_content").innerHTML += "<div id=\"" + id + "\"></div>";
             document.getElementById(id).innerHTML += "<h4 id='" + i + "'></h4>";
-            document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'> <button class=\"ui button\" onClick='removeMenuItem(\"" + restaurant_name + "\",\"" + i + "\")'>Remove</button><br>";
+            document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'> <button class=\"ui button\" onClick='removeMenuItem(\"" + restaurant_name.replace(/'/g, "&#39") + "\",\"" + i + "\")'>Remove</button><br>";
             // Description, ingredients and price:
             document.getElementById(id).innerHTML += "Description: <input type='text' value=\"" + items[i].desc + "\" style='width: inherit;'><br>";
             document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value=\"" + items[i].ingr + "\" style='width: inherit;'><br>";
@@ -483,8 +483,14 @@ function saveMenuChanges(el, master_id)
     var item_name = inputs[0].value;
     var item_desc = inputs[1].value;
     var item_ingr = inputs[2].value;
-    var item_price = inputs[4].value;
-
+    var item_price;
+    if (inputs[4] === undefined)
+    {
+        item_price = inputs[3].value;
+    } else
+    {
+        item_price = inputs[4].value;
+    }
     try
     {
         item_price = parseFloat(item_price);
@@ -533,7 +539,7 @@ function saveMenuChanges(el, master_id)
                 // Header Name field, with removeMenuItem button:
                 document.getElementById("menu_content").innerHTML += "<div id=\"" + id + "\"></div>";
                 document.getElementById(id).innerHTML += "<h4 id='" + i + "'></h4>";
-                document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'> <button class=\"ui button\" onClick='removeMenuItem(\"" + restaurant_name + "\",\"" + i + "\")'>Remove</button><br>";
+                document.getElementById(i).innerHTML = "Item Name: <input type='text' value='" + i + "'> <button class=\"ui button\" onClick='removeMenuItem(\"" + restaurant_name.replace(/'/g, "&#39") + "\",\"" + i + "\")'>Remove</button><br>";
                 // Description, ingredients and price:
                 document.getElementById(id).innerHTML += "Description: <input type='text' value=\"" + items[i].desc + "\" style='width: inherit;'><br>";
                 document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value=\"" + items[i].ingr + "\" style='width: inherit;'><br>";
