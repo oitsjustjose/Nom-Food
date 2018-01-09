@@ -40,6 +40,52 @@ function populateTable()
     });
 }
 
+function uploadFile(el, item_name)
+{
+    if (firebase.auth().currentUser)
+    {
+        var id = el.getAttribute("id");
+        var loaderID = id.replace("input", "loader");
+        var restaurant_name = id.substr(id.indexOf("_") + 1).split(":")[0];
+        var file = el.files[0]; //sames as here
+        var storage = firebase.storage().ref();
+        var ref = storage.child(firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + "/" + restaurant_name + "/" + file.name);
+        var uploadTask = ref.put(file);
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+            function (snapshot)
+            {
+                switch (snapshot.state)
+                {
+                    case firebase.storage.TaskState.PAUSED:
+                        document.getElementById(loaderID).setAttribute("class", "large pause icon");
+                        break;
+                    case firebase.storage.TaskState.RUNNING:
+                        document.getElementById(loaderID).setAttribute("class", "ui active inline loader");
+                        break;
+                }
+            }, function (error)
+            {
+                switch (error.code)
+                {
+                    case 'storage/unauthorized':
+                        break;
+                    case 'storage/canceled':
+                        break;
+                    case 'storage/unknown':
+                        break;
+                }
+            }, function ()
+            {
+                firebase.database().ref('Restaurants/' + restaurant_name + '/menu/' + item_name).set({
+                    img: uploadTask.snapshot.downloadURL
+                }).then(function ()
+                {
+                    document.getElementById(loaderID).setAttribute("class", "large checkmark icon");
+                });
+            });
+    }
+}
+
 function editMenu(el)
 {
     var restaurant_name = (el.parentElement.innerHTML);
@@ -77,9 +123,8 @@ function editMenu(el)
             document.getElementById(id).innerHTML += "Description: <input type='text' value=\"" + items[i].desc + "\" style='width: inherit;'><br>";
             document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value=\"" + items[i].ingr + "\" style='width: inherit;'><br>";
             // Image attachment:
-            document.getElementById(id).innerHTML += "<br>Image URL: <input type='text' value=\"" + items[i].img + "\" style='width: inherit;'> <a href='https://imgur.com/' id=\"" + id + "_image\" target='_blank'></a><br>";
-            document.getElementById(id + "_image").innerHTML = "<sup>(Upload here)</sup>";
-
+            document.getElementById(id).innerHTML += "<br>Image: <input type='file' accept='image/*' id='input_" + id + "' onchange='uploadFile(this, \"" + i + "\")'><i id='loader_" + id + "'></i><br>";
+            // Price
             document.getElementById(id).innerHTML += "<br>Price: <input type='text' value=\"" + items[i].price + "\"><br>";
             // Save button:
             document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveMenuChanges(this,\"" + id.replace(/'/g, "&#39") + "\")'>Save</button>";
@@ -396,9 +441,8 @@ function removeMenuItem(restaurant_name, item)
             document.getElementById(id).innerHTML += "Description: <input type='text' value=\"" + items[i].desc + "\" style='width: inherit;'><br>";
             document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value=\"" + items[i].ingr + "\" style='width: inherit;'><br>";
             // Image attachment:
-            document.getElementById(id).innerHTML += "<br>Image URL: <input type='text' value=\"" + items[i].img + "\" style='width: inherit;'> <a href='https://imgur.com/' id=\"" + id + "_image\" target='_blank'></a><br>";
-            document.getElementById(id + "_image").innerHTML = "<sup>(Upload here)</sup>";
-
+            document.getElementById(id).innerHTML += "<br>Image: <input type='file' accept='image/*' id='input_" + id + "' onchange='uploadFile(this, \"" + i + "\")'><i id='loader_" + id + "'></i><br>";
+            // Price:
             document.getElementById(id).innerHTML += "<br>Price: <input type='text' value=\"" + items[i].price + "\"><br>";
             // Save button:
             document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveMenuChanges(this,\"" + id.replace(/'/g, "&#39") + "\")'>Save</button>";
@@ -442,7 +486,6 @@ function saveMenuChanges(el, master_id)
     var item_name = inputs[0].value;
     var item_desc = inputs[1].value;
     var item_ingr = inputs[2].value;
-    var item_img = inputs[3].value;
     var item_price = inputs[4].value;
 
     try
@@ -460,16 +503,9 @@ function saveMenuChanges(el, master_id)
         return;
     }
 
-    if (item_img.indexOf('.png') !== item_img.length - 5 && item_img.indexOf('.jpg') !== item_img.length - 4 && item_img.indexOf('.jpeg') !== item_img.length - 5)
-    {
-        alert("Please only attach images ending in .jpg, .jpeg or .png");
-        return;
-    }
-
     const promise = firebase.database().ref('Restaurants/' + restaurant_name + '/menu/' + item_name).set({
         'desc': item_desc,
         'ingr': item_ingr,
-        'img': item_img,
         'price': item_price
     });
 
@@ -505,9 +541,8 @@ function saveMenuChanges(el, master_id)
                 document.getElementById(id).innerHTML += "Description: <input type='text' value=\"" + items[i].desc + "\" style='width: inherit;'><br>";
                 document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' value=\"" + items[i].ingr + "\" style='width: inherit;'><br>";
                 // Image attachment:
-                document.getElementById(id).innerHTML += "<br>Image URL: <input type='text' value=\"" + items[i].img + "\" style='width: inherit;'> <a href='https://imgur.com/' id=\"" + id + "_image\" target='_blank'></a><br>";
-                document.getElementById(id + "_image").innerHTML = "<sup>(Upload here)</sup>";
-
+                document.getElementById(id).innerHTML += "<br>Image: <input type='file' accept='image/*' id='input_" + id + "' onchange='uploadFile(this, \"" + i + "\")'><i id='loader_" + id + "'></i><br>";
+                // Price: 
                 document.getElementById(id).innerHTML += "<br>Price: <input type='text' value=\"" + items[i].price + "\"><br>";
                 // Save button:
                 document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveMenuChanges(this,\"" + id.replace(/'/g, "&#39") + "\")'>Save</button>";
