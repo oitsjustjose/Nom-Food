@@ -77,9 +77,7 @@ function uploadFile(el, item_name)
                 }
             }, function ()
             {
-                firebase.database().ref('Restaurants/' + restaurant_name + '/menu/' + item_name).set({
-                    img: uploadTask.snapshot.downloadURL
-                }).then(function ()
+                firebase.database().ref('Restaurants/' + restaurant_name + '/menu/' + item_name + "/img").set(uploadTask.snapshot.downloadURL).then(function ()
                 {
                     document.getElementById(loaderID).setAttribute("class", "large checkmark icon");
                 });
@@ -504,7 +502,7 @@ function saveMenuChanges(el, master_id)
         return;
     }
 
-    const promise = firebase.database().ref('Restaurants/' + restaurant_name + '/menu/' + item_name).set({
+    const promise = firebase.database().ref('Restaurants/' + restaurant_name + '/menu/' + item_name).update({
         'desc': item_desc,
         'ingr': item_ingr,
         'price': item_price
