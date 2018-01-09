@@ -463,7 +463,6 @@ function addNewMenuItem(el, numItems, restaurant_name)
     document.getElementById("header_new").innerHTML = "Item Name: <input type='text'><br>";
     document.getElementById(id).innerHTML += "Description: <input type='text' style='width: inherit;'><br>";
     document.getElementById(id).innerHTML += "<br>Ingredients: <input type='text' style='width: inherit;'><br>";
-    document.getElementById(id).innerHTML += "<br>Image: <input type='file' accept='image/*' id='input_" + id + "' onchange='uploadFile(this, \"" + i + "\")'><i id='loader_" + id + "'></i><br>";
     document.getElementById(id).innerHTML += "<br>Price: <input type='text'><br>";
     document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveMenuChanges(this,\"" + id.replace(/'/g, "&#39") + "\")'>Save</button><br>";
 
