@@ -131,7 +131,7 @@ function editMenu(el)
         }
         // New item button:
         document.getElementById("menu_content").innerHTML += "<div id='plus_button' class='ui right' style='padding-bottom: 12px;'></div>";
-        document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"plus icon\" id='new_entry' class=\"ui button\" onClick='addNewMenuItem(this," + items.length + ",\"" + restaurant_name.replace(/'/g, "&#39") + "\")'></i>";
+        document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"ui large plus icon\" id='new_entry' class=\"ui button\" onClick='addNewMenuItem(this," + items.length + ",\"" + restaurant_name.replace(/'/g, "&#39") + "\")'></i>";
 
         // Show the modal now that we've generated it.
         $('.ui.longer.modal').modal('show');
