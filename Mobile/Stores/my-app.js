@@ -126,10 +126,11 @@ function editMenu(el)
             document.getElementById(id).innerHTML += "<br>Price: <input type='text' value=\"" + items[i].price + "\"><br>";
             // Save button:
             document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveMenuChanges(this,\"" + id.replace(/'/g, "&#39") + "\")'>Save</button>";
+            document.getElementById(id).innerHTML += "<div class='ui divider'></div>";
             tally++;
         }
         // New item button:
-        document.getElementById("menu_content").innerHTML += "<div id='plus_button' class=\"ui right\"></div>";
+        document.getElementById("menu_content").innerHTML += "<div id='plus_button' class='ui right' style='padding-bottom: 12px;'></div>";
         document.getElementById("plus_button").innerHTML += "<i style='cursor: pointer; margin-left: 98%;' class=\"plus icon\" id='new_entry' class=\"ui button\" onClick='addNewMenuItem(this," + items.length + ",\"" + restaurant_name.replace(/'/g, "&#39") + "\")'></i>";
 
         // Show the modal now that we've generated it.
@@ -444,6 +445,7 @@ function removeMenuItem(restaurant_name, item)
             document.getElementById(id).innerHTML += "<br>Price: <input type='text' value=\"" + items[i].price + "\"><br>";
             // Save button:
             document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveMenuChanges(this,\"" + id.replace(/'/g, "&#39") + "\")'>Save</button>";
+            document.getElementById(id).innerHTML += "<div class='ui divider'></div>";
             tally++;
         }
 
@@ -548,6 +550,8 @@ function saveMenuChanges(el, master_id)
                 document.getElementById(id).innerHTML += "<br>Price: <input type='text' value=\"" + items[i].price + "\"><br>";
                 // Save button:
                 document.getElementById(id).innerHTML += "<br><button class=\"ui button\" onClick='saveMenuChanges(this,\"" + id.replace(/'/g, "&#39") + "\")'>Save</button>";
+                document.getElementById(id).innerHTML += "<div class='ui divider'></div>";
+
                 tally++;
             }
 
