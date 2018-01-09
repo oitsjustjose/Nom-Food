@@ -43,11 +43,10 @@ $(document).ready(function ()
     {
         if (result.user != null)
         {
-            console.log(result);
             var user = result.user;
             var first_name = user.displayName.split(" ")[0];
             var last_name = user.displayName.split(" ")[1];
-            var email = user.providerData[0].email.replace(".", "_dot_");
+            var email = user.providerData[0].email.replace(/\./g, "_dot_");
             if (first_name === undefined)
             {
                 first_name = "";
@@ -160,7 +159,7 @@ function register()
         {
             firebase.auth().onAuthStateChanged(firebaseUser =>
             {
-                firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + "/Name").set({
+                firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(/\./g, "_dot_") + "/Name").set({
                     first: first.value,
                     last: last.value
                 }).then(function ()
@@ -186,7 +185,7 @@ function register()
             document.getElementById("googlelogin").remove();
             document.getElementById("twitterlogin").remove();
 
-            firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + "/Name" + "/first").on('value', function (snapshot)
+            firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(/\./g, "_dot_") + "/Name" + "/first").on('value', function (snapshot)
             {
                 document.getElementById("status").innerHTML = "Welcome " + snapshot.val() + ", would you like to log out?";
             });

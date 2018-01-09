@@ -58,7 +58,7 @@ function loginWithFacebook()
             last_name = "";
         }
 
-        firebase.database().ref("Users/" + user.uid).set({
+        firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(/\./g, "_dot_") + "/Name").set({
             first: first_name,
             last: last_name
         }).then(function ()
@@ -100,7 +100,7 @@ function loginWithGoogle()
             last_name = "";
         }
 
-        firebase.database().ref("Users/" + user.uid).set({
+        firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(/\./g, "_dot_") + "/Name").set({
             first: first_name,
             last: last_name
         }).then(function ()
@@ -141,7 +141,7 @@ function loginWithTwitter()
             last_name = "";
         }
 
-        firebase.database().ref("Users/" + user.uid).set({
+        firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(/\./g, "_dot_") + "/Name").set({
             first: first_name,
             last: last_name
         }).then(function ()
@@ -236,7 +236,7 @@ function register()
         {
             firebase.auth().onAuthStateChanged(firebaseUser =>
             {
-                firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + "/Name").set({
+                firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(/\./g, "_dot_") + "/Name").set({
                     first: first.value,
                     last: last.value
                 }).then(function ()
@@ -262,7 +262,7 @@ function register()
             document.getElementById("googlelogin").remove();
             document.getElementById("twitterlogin").remove();
 
-            firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + "/Name" + "/first").on('value', function (snapshot)
+            firebase.database().ref("Users/" + firebase.auth().currentUser.providerData[0].email.replace(/\./g, "_dot_") + "/Name" + "/first").on('value', function (snapshot)
             {
                 document.getElementById("status").innerHTML = "Welcome " + snapshot.val() + ", would you like to log out?";
             });

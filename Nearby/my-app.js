@@ -50,7 +50,7 @@ function addToCart(el, restaurant, item, price, qty)
 
     firebase.database().ref('Restaurants/' + restaurant.replace("&#39", "'")).on('value', function (snapshot)
     {
-        firebase.database().ref('Users/' + firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + '/cart/' + item).set({
+        firebase.database().ref('Users/' + firebase.auth().currentUser.providerData[0].email.replace(/\./g, "_dot_") + '/cart/' + item).set({
             price: price,
             restaurant: restaurant.replace("&#39", "'"),
             restaurant_owner: snapshot.val().owner_email,

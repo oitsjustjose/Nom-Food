@@ -49,7 +49,7 @@ function uploadFile(el, item_name)
         var restaurant_name = id.substr(id.indexOf("_") + 1).split(":")[0];
         var file = el.files[0]; //sames as here
         var storage = firebase.storage().ref();
-        var ref = storage.child(firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + "/" + restaurant_name + "/" + file.name);
+        var ref = storage.child(firebase.auth().currentUser.providerData[0].email.replace(/\./g, "_dot_") + "/" + restaurant_name + "/" + file.name);
         var uploadTask = ref.put(file);
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
             function (snapshot)

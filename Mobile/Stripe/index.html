@@ -46,7 +46,7 @@
                 {
                     var file = document.querySelector('input[type=file]').files[0]; //sames as here
                     var storage = firebase.storage().ref();
-                    var ref = storage.child(firebase.auth().currentUser.providerData[0].email.replace(".", "_dot_") + "/" + file.name);
+                    var ref = storage.child(firebase.auth().currentUser.providerData[0].email.replace(/\./g, "_dot_") + "/" + file.name);
                     var uploadTask = ref.put(file);
                     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
                         function (snapshot)
